@@ -1,5 +1,5 @@
 import { comparePasswords, hashPassword } from "../helpers/bcrypt.js";
-import { signToken } from "../helpers/jwt.JS";
+import { signToken } from "../helpers/jwt.js";
 import { User } from "../models/user.models.js";
 
 export const register = async (req,res) => {
@@ -68,5 +68,11 @@ export const login = async (req,res) => {
             msg:"Error del servidor"
         });
     }
+
     
+};
+
+export const logout = async (req,res) => {
+res.clearCookie("token"); 
+return res.json({ message: "Logout exitoso" });
 }
