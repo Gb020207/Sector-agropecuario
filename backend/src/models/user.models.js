@@ -4,18 +4,18 @@ const Userschema = new Schema({
     username:{
         type: String,
         unique:true,
-        require:true,
+        required:true,
     },
     email:{
         type: String,
         unique:true,
-        require:true,
-
+        required:true,
+        match: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Formato de correo inválido.']
     },
     password:{
         type:String,
-        require:true,
-
+        required:true,
+        minLength: [6, 'La contraseña debe tener al menos 6 caracteres.']
     },
     profile:{
         firstName:{
