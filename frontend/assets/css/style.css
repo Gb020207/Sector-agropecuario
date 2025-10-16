@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #e8f5e9, #354435);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.container {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  width: 900px;
+  max-width: 100%;
+  min-height: 540px;
+  transition: all 0.4s ease;
+}
+
+/* FORMULARIOS */
+.form-container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+}
+
+.sign-in-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+
+.sign-up-container {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* ANIMACIONES */
+.container.right-panel-active .sign-in-container {
+  transform: translateX(100%);
+}
+
+.container.right-panel-active .sign-up-container {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+}
+
+/* FORMULARIO INTERNO */
+form {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 0 50px;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+h1 {
+  font-weight: 600;
+  color: #000000; /* Verde institucional fuerte */
+  margin-bottom: 12px;
+}
+
+form p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+input {
+  background-color: #f5f5f5;
+  border: 1px solid #cfd8dc;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4caf50;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.15);
+}
+
+a {
+  color: #388e3c;
+  font-size: 13px;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* BOTONES */
+button {
+  border-radius: 6px;
+  border: none;
+  background-color: #388e3c;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 40px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+button:hover {
+  background-color: #2e7d32;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* PANEL DE TRANSICIÓN */
+.overlay-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 100;
+}
+
+.overlay {
+  background: linear-gradient(120deg, #1eee28, #19661c);
+  color: #ffffff;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.container.right-panel-active .overlay-container {
+  transform: translateX(-100%);
+}
+
+.container.right-panel-active .overlay {
+  transform: translateX(50%);
+}
+
+/* PANEL IZQUIERDO / DERECHO */
+.overlay-panel {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 40px;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  transition: transform 0.6s ease-in-out;
+}
+
+.overlay-left {
+  transform: translateX(-20%);
+}
+
+.container.right-panel-active .overlay-left {
+  transform: translateX(0);
+}
+
+.overlay-right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.container.right-panel-active .overlay-right {
+  transform: translateX(20%);
+}
+
+.overlay h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.overlay p {
+  font-size: 14px;
+  line-height: 1.5;
+  max-width: 300px;
+  color: #e8f5e9;
+}
+
+.ghost {
+  background-color: transparent;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  padding: 10px 35px;
+  border-radius: 6px;
+  font-weight: 500;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.ghost:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ANIMACIÓN DE SOMBRA AL CONTENEDOR */
+.container:hover {
+  box-shadow: 0 12px 30px rgba(46, 125, 50, 0.25);
+}
+
+  

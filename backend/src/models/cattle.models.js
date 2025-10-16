@@ -1,4 +1,5 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
+
 
 const Cattleschema = new Schema({
     spieces:{
@@ -23,8 +24,11 @@ const Cattleschema = new Schema({
         require:true,
     },
     farmer:{
-        ref:"User",
+        type: Types.ObjectId,
+        ref:'User',
         require:true,
         unique:true,
     }
 })
+
+export const Cattle = model('Cattle', Cattleschema);
