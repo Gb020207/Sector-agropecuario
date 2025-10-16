@@ -24,3 +24,5 @@ const Cropschema = new Schema({
     
 
 })
+
+export const Crop = model('Crop',Cropschema);
