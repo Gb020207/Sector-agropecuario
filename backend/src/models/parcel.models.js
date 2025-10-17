@@ -8,25 +8,25 @@ const Parcelschema = new Schema({
         ref:'Establishment',
         require:true,
     },
-    crop:{
+    crop:[{
         type:Types.ObjectId,
         ref:'Crop',
         require:true,
-    },
-    cattle:{
+    }],
+    cattle:[{
         type:Types.ObjectId,
         ref:'Cattle',
         require:false,
-    }
+    }]
 })
 Parcelschema.pre('findOneAndDelete',async function(next) {
     const parcelId = this.getQuery()._id;
 
-    console.log("se elimino esta parcela", parcelId);
+    const parcel = await Parcel.findById(parcelId)
 
-    await Crop.deleteMany({parcelId:parcelId});
-    await Cattle.deleteMany({parcelId:parcelId})
-    
+    await Crop.deleteMany({_id:parcel.crop})  
+    await Cattle.deleteMany({_id:parcel.cattle})  
+
     next();
 })
 

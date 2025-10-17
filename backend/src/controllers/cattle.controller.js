@@ -61,7 +61,7 @@ export const updateCattle = async (req,res) => {
         if(!id){
             return res.status(400).json({msg:"el id es invalido coloque un id valido"})
         }
-        const cattle = await Cattle.findByIdAndUpdate({temperature,location,healt});
+        const cattle = await Cattle.findByIdAndUpdate(id,{temperature,location,healt},{new:true});
         return res.status(201).json({
             msg:"Ganado actualizado correctamente",
             data:cattle,

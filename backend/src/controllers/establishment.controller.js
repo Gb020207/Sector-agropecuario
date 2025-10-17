@@ -70,7 +70,7 @@ export const getEstablishmentById = async (req, res) => {
       });
     }
 
-    const establishment = await Establishment.findById
+    const establishment = await Establishment.findById(id);
 
     if (!establishment) {
       return res.status(404).json({

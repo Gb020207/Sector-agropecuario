@@ -27,7 +27,6 @@ const Cattleschema = new Schema({
         type: Types.ObjectId,
         ref:'User',
         require:true,
-        unique:true,
     }
 })
 

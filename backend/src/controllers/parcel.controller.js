@@ -1,14 +1,14 @@
 import { Parcel } from "../models/parcel.models.js";
 
 export const createParcel = async (req, res) => {
-    const { name, farmer, crop, cattle } = req.body;
+    const { establishment,name, farmer, crop, cattle,} = req.body;
     try {
         if (name === "" || name === undefined || farmer === "" || farmer === undefined || crop === "" || crop === undefined || cattle === "" || cattle === undefined) {
             return res.status(400).json({
                 msg: "Todos los campos son requeridos",
             })
         };
-        const parcel = await Parcel.create({ farmer, crop, cattle });
+        const parcel = await Parcel.create({ establishment,name,farmer, crop, cattle });
         return res.status(200).json({
             msg: "Parcela creada",
             data: parcel,

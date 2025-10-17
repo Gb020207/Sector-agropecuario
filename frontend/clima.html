@@ -1,123 +1,179 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgroSmart - Monitoreo de Clima</title>
-    <!-- Incluir Bootstrap 5 CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Incluir Font Awesome para Iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!-- Enlazar el archivo CSS personalizado -->
-    <link rel="stylesheet" href="assets/css/clima.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AgroSmart - Clima Formosa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    body { background:#f7fafc; }
+    .card-weather { min-height:130px; }
+    .display-6 { font-size:2rem; }
+  </style>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+  <div class="container">
+    <a class="navbar-brand" href="#">AgroSmart - Clima</a>
+  </div>
+</nav>
 
-    <!-- Navegación Fija -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary shadow-sm sticky-top">
-        <div class="container">
-            <a class="navbar-brand fs-4 fw-bold" href="home.html"><i class="fas fa-leaf me-2 text-success"></i> AgroSmart</a>
-            <div class="d-flex align-items-center">
-                <span class="text-white-50 me-3 d-none d-md-block">Módulo Clima</span>
-                <button class="btn btn-agro-invert" onclick="window.location.href='index.html'">
-                    <i class="fas fa-sign-out-alt me-1"></i> Cerrar Sesión
-                </button>
-            </div>
+<main class="container py-4">
+  <header class="mb-3">
+    <h1 class="h4">Pronóstico - Formosa, AR</h1>
+    <p class="text-muted">Datos en tiempo real desde MET Norway</p>
+  </header>
+
+  <div id="clima-alerts" class="mb-3">
+    <div class="alert alert-info">Cargando datos...</div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row align-items-center">
+        <div class="col-md-4 text-center border-end">
+          <h5 id="ubicacion-nombre">Formosa, Argentina</h5>
+          <div id="clima-icon" class="display-4 my-2"><i class="fas fa-cloud-sun"></i></div>
+          <p id="clima-condicion" class="mb-0">--</p>
+          <h1 id="clima-temp" class="display-5">--°C</h1>
         </div>
-    </nav>
-
-    <!-- Header / Título del Dashboard -->
-    <header class="py-4 bg-light border-bottom">
-        <div class="container">
-            <h1 class="h3 fw-bold text-dark-emphasis"><i class="fas fa-cloud me-2 text-primary"></i> Pronóstico de la Parcela</h1>
-            <p class="text-muted">Datos en tiempo real alimentados por OpenWeatherMap para la planificación de tareas.</p>
+        <div class="col-md-8">
+          <div class="row g-2">
+            <div class="col-sm-6"><div class="p-2 border rounded"><i class="fas fa-tint me-2"></i> Humedad: <span id="clima-humedad">--%</span></div></div>
+            <div class="col-sm-6"><div class="p-2 border rounded"><i class="fas fa-wind me-2"></i> Viento: <span id="clima-viento">-- m/s</span></div></div>
+            <div class="col-sm-6"><div class="p-2 border rounded"><i class="fas fa-thermometer-three-quarters me-2"></i> Presión: <span id="clima-presion">-- hPa</span></div></div>
+            <div class="col-sm-6"><div class="p-2 border rounded"><i class="fas fa-cloud-rain me-2"></i> Lluvia próxima: <span id="clima-prob-lluvia">-- mm</span></div></div>
+          </div>
         </div>
-    </header>
-    
-    <!-- DASHBOARD PRINCIPAL (Contenido de Clima) -->
-    <main class="main-content py-5">
-        <div class="container">
-            
-            <!-- 1. ALERTAS CLIMÁTICAS -->
-            <div id="clima-alerts" class="mb-4">
-                <!-- Alertas importantes (Ej: "Riesgo de Helada", "Viento Fuerte") se inyectarán aquí. -->
-                <div class="alert alert-info py-2" role="alert">
-                    <i class="fas fa-sync fa-spin me-2"></i> Cargando alertas meteorológicas...
-                </div>
-            </div>
+      </div>
+    </div>
+  </div>
 
-            <!-- 2. CONDICIONES ACTUALES -->
-            <div class="card shadow-lg mb-5 border-0">
-                <div class="card-header bg-secondary text-white fw-bold fs-5">
-                    <i class="fas fa-sun me-2"></i> Condiciones Actuales
-                </div>
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <!-- Columna de Icono y Temperatura -->
-                        <div class="col-md-4 text-center border-end">
-                            <h3 id="ubicacion-nombre" class="text-primary fw-bold">Ubicación de la Finca</h3>
-                            <div id="clima-icon" class="text-warning display-1 my-2">
-                                <i class="fas fa-cloud me-2"></i>
-                            </div>
-                            <p id="clima-condicion" class="lead fw-bold text-dark">Condición del Cielo</p>
-                            <h1 id="clima-temp" class="display-4 fw-bolder text-secondary">--°C</h1>
-                        </div>
-                        
-                        <!-- Columna de Detalles -->
-                        <div class="col-md-8">
-                            <h5 class="text-primary fw-bold mb-3">Detalles Adicionales del Ambiente</h5>
-                            <div class="row g-3 small">
-                                <div class="col-sm-6">
-                                    <div class="p-2 border rounded"><i class="fas fa-tint me-2 text-info"></i> Humedad del Aire: <span id="clima-humedad" class="fw-bold">--%</span></div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="p-2 border rounded"><i class="fas fa-wind me-2 text-info"></i> Velocidad del Viento: <span id="clima-viento" class="fw-bold">-- m/s</span></div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="p-2 border rounded"><i class="fas fa-sun me-2 text-warning"></i> Salida del Sol: <span id="clima-sunrise" class="fw-bold">--</span></div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="p-2 border rounded"><i class="fas fa-moon me-2 text-warning"></i> Puesta del Sol: <span id="clima-sunset" class="fw-bold">--</span></div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="p-2 border rounded"><i class="fas fa-thermometer-three-quarters me-2 text-danger"></i> Presión Atmosférica: <span id="clima-presion" class="fw-bold">-- hPa</span></div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="p-2 border rounded"><i class="fas fa-cloud-rain me-2 text-primary"></i> Probabilidad Lluvia: <span id="clima-prob-lluvia" class="fw-bold">--%</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="card mb-4">
+    <div class="card-header bg-secondary text-white">Pronóstico semanal (7 días)</div>
+    <div class="card-body">
+      <div id="pronostico-semanal" class="row g-3 text-center">
+        <div class="col-12 text-muted">Cargando pronóstico... <i class="fas fa-sync fa-spin"></i></div>
+      </div>
+    </div>
+  </div>
+</main>
 
-            <!-- 3. PRONÓSTICO SEMANAL (7 DÍAS) -->
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-secondary text-white fw-bold fs-5">
-                    <i class="fas fa-calendar-alt me-2"></i> Pronóstico de la Semana
-                </div>
-                <div class="card-body">
-                    <div id="pronostico-semanal" class="row g-3 text-center">
-                        <!-- Las tarjetas diarias se insertarán aquí con JS -->
-                        <div class="col-12 text-center text-muted">
-                            Cargando pronóstico detallado...
-                            <i class="fas fa-sync fa-spin"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-    </main>
-    
-    <!-- Footer -->
-    <footer>
-        <p class="mb-0">© 2025 AgroSmart | Datos de clima proporcionados por OpenWeatherMap</p>
-    </footer>
+<footer class="text-center py-3">© 2025 AgroSmart | Datos: MET Norway</footer>
 
-    <!-- Librerías JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/clima2.js"></script>
-    <script src="assets/js/pronostico.js"></script>
+<script>
+  const REALETIME_URL = "http://localhost:3000/api/weather/realtime";
+const FORECAST_URL = "http://localhost:3000/api/weather/forecast";
+
+  function obtenerIcono(code) {
+    if (!code) return '<i class="fas fa-cloud-sun text-muted"></i>';
+    const c = code.toLowerCase();
+    if (c.includes("clear")) return '<i class="fas fa-sun text-warning"></i>';
+    if (c.includes("partly") || c.includes("fair")) return '<i class="fas fa-cloud-sun text-warning"></i>';
+    if (c.includes("cloud")) return '<i class="fas fa-cloud text-secondary"></i>';
+    if (c.includes("rain") || c.includes("drizzle")) return '<i class="fas fa-cloud-rain text-primary"></i>';
+    if (c.includes("snow")) return '<i class="fas fa-snowflake text-info"></i>';
+    if (c.includes("thunder")) return '<i class="fas fa-bolt text-danger"></i>';
+    return '<i class="fas fa-cloud-sun text-muted"></i>';
+  }
+
+  function formatearCondicion(code) {
+    if (!code) return "Desconocido";
+    const map = {
+      clear: "Despejado",
+      partlycloudy: "Parcialmente nublado",
+      cloudy: "Nublado",
+      lightrain: "Lluvia ligera",
+      rain: "Lluvia",
+      heavyrain: "Lluvia fuerte",
+      snow: "Nieve",
+      thunderstorm: "Tormenta"
+    };
+    // simplificar búsqueda
+    const key = code.toLowerCase();
+    for (const k in map) if (key.includes(k)) return map[k];
+    return code;
+  }
+
+  async function cargarClima() {
+    try {
+      const res = await fetch(REALETIME_URL);
+      if (!res.ok) throw new Error("No se pudo obtener clima real");
+      const d = await res.json();
+
+      document.getElementById("ubicacion-nombre").textContent = d.location?.name || "Formosa, AR";
+      document.getElementById("clima-temp").textContent = d.temperature_c !== null ? `${d.temperature_c}°C` : "--°C";
+      document.getElementById("clima-condicion").textContent = formatearCondicion(d.condition);
+      document.getElementById("clima-humedad").textContent = d.humidity_percent !== null ? `${d.humidity_percent}%` : "--%";
+      document.getElementById("clima-viento").textContent = d.wind_speed_m_s !== null ? `${d.wind_speed_m_s} m/s` : "-- m/s";
+      document.getElementById("clima-prob-lluvia").textContent = d.precipitation_mm_next_hour !== undefined ? `${d.precipitation_mm_next_hour} mm` : "-- mm";
+      document.getElementById("clima-icon").innerHTML = obtenerIcono(d.condition);
+      // presión no la tenemos en este endpoint; mostrar placeholder razonable
+      document.getElementById("clima-presion").textContent = "-- hPa";
+
+      // Alertas simples
+      const alertsDiv = document.getElementById("clima-alerts");
+      if (d.precipitation_mm_next_hour && d.precipitation_mm_next_hour > 0.1) {
+        alertsDiv.innerHTML = '<div class="alert alert-warning"><i class="fas fa-cloud-rain me-2"></i> Probable precipitación en la próxima hora.</div>';
+      } else {
+        alertsDiv.innerHTML = '<div class="alert alert-success"><i class="fas fa-check me-2"></i> Sin precipitaciones inmediatas.</div>';
+      }
+    } catch (err) {
+      console.error(err);
+      document.getElementById("clima-alerts").innerHTML = '<div class="alert alert-danger">Error al obtener clima.</div>';
+    }
+  }
+
+  async function cargarPronostico() {
+    const container = document.getElementById("pronostico-semanal");
+    container.innerHTML = '<div class="col-12 text-muted">Cargando pronóstico... <i class="fas fa-sync fa-spin"></i></div>';
+    try {
+      const res = await fetch(FORECAST_URL);
+      if (!res.ok) throw new Error("No se pudo obtener pronóstico");
+      const dias = await res.json();
+      container.innerHTML = "";
+      if (!Array.isArray(dias) || dias.length === 0) {
+        container.innerHTML = '<div class="col-12 text-muted">No hay pronóstico disponible.</div>';
+        return;
+      }
+
+      dias.forEach(d => {
+        const fecha = new Date(d.date).toLocaleDateString("es-AR", { weekday:"short", day:"numeric", month:"short" });
+        const icon = obtenerIcono(d.condition);
+        const condText = formatearCondicion(d.condition);
+        const tempMax = d.temp_max !== null ? `${d.temp_max}°` : "--";
+        const tempMin = d.temp_min !== null ? `${d.temp_min}°` : "--";
+        const rain = d.rain_total_mm !== undefined ? `${d.rain_total_mm} mm` : `${d.rain_total_mm} mm`;
+        const card = `
+          <div class="col-6 col-md-3 col-lg-2">
+            <div class="card card-weather p-2 shadow-sm border-0">
+              <h6 class="fw-bold text-primary">${fecha}</h6>
+              <div class="display-6">${icon}</div>
+              <p class="mb-0 small text-secondary">${condText}</p>
+              <p class="fw-bold mb-0 mt-1">${tempMax} / ${tempMin}</p>
+              <p class="small text-muted mb-0"><i class="fas fa-cloud-rain me-1"></i> ${d.rain_total_mm} mm</p>
+            </div>
+          </div>
+        `;
+        container.insertAdjacentHTML("beforeend", card);
+      });
+
+    } catch (err) {
+      console.error(err);
+      container.innerHTML = '<div class="col-12 text-danger">Error al cargar pronóstico.</div>';
+    }
+  }
+
+  // refrescar cada 10 minutos
+  function iniciar() {
+    cargarClima();
+    cargarPronostico();
+    setInterval(cargarClima, 10*60*1000);
+    setInterval(cargarPronostico, 30*60*1000); // pronóstico se actualiza menos
+  }
+
+  window.addEventListener("DOMContentLoaded", iniciar);
+</script>
 </body>
 </html>
