@@ -130,23 +130,23 @@ nav ul li a:hover {
   </style>
 </head>
 <body>
- <nav>
-   <a href="#" class="navbar-brand">
-      <i class="fas fa-leaf brand-icon"></i> AgroSmart
-    </a>
-    <ul>
-       
+    <nav>
+      <a href="#" class="navbar-brand">
+        <i class="fas fa-leaf brand-icon"></i> AgroSmart
+      </a>
       <ul>
-         <li><a href="#parcela">Inicio</a></li>
-        <li><a href="#parcela">Mi Parcela</a></li>
-        <li><a href="#clima">Clima</a></li>
-        <li><a href="#plagas">Plagas</a></li>
-        <li><a href="#ganado">Ganado</a></li>
-        <li><a href="#cultivos">Cultivos</a></li>
-      </ul>
-    
-  </nav>
 
+        <ul>
+          <li><a href="home.html">Inicio</a></li>
+          <li><a href="establecimiento.html">Mi Establecimiento</a></li>
+          <li><a href="clima.html">Clima</a></li>
+          <li><a href="plagas.html">Plagas</a></li>
+          <li><a href="chat.html">AgroBot</a></li>
+           <li><a href="monitoreo-suelo.html">Monitoreo del Suelo</a></li>
+
+        </ul>
+
+    </nav>
 <main class="container py-4">
   <header class="mb-3">
     <h1 class="h4">Pronóstico - Formosa, AR</h1>
@@ -191,8 +191,8 @@ nav ul li a:hover {
 <footer class="text-center py-3">© 2025 AgroSmart | Datos: MET Norway</footer>
 
 <script>
-  const REALETIME_URL = "http://localhost:4000/api/weather/realtime";
-const FORECAST_URL = "http://localhost:4000/api/weather/forecast";
+  const REALETIME_URL = "http://localhost:3000/api/weather/realtime";
+const FORECAST_URL = "http://localhost:3000/api/weather/forecast";
 
   function obtenerIcono(code) {
     if (!code) return '<i class="fas fa-cloud-sun text-muted"></i>';

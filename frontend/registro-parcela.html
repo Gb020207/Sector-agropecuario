@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registrar Parcela</title>
-  <link rel="stylesheet" href="assets/css/home.css">
-  <link rel="stylesheet" href="assets/css/registro.css">
+  <link rel="stylesheet" href="./assets/css/registro-parcela.css">
 </head>
 <body>
   <header class="navbar">
@@ -28,6 +27,49 @@
     </form>
   </section>
 
-  <script src="assets/js/registro-parcela.js"></script>
+  <script>
+ document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('formParcela');
+  const cropSelect = document.getElementById('crop');
+
+  // ✅ Cargar cultivos
+  const cultivos = ['Soja', 'Maíz', 'Trigo', 'Girasol', 'Arroz', 'Poroto', 'Algodon', 'Frutilla', 'Zanahoria', 'Papa'];
+  cultivos.forEach(c => {
+    const option = document.createElement('option');
+    option.value = c;
+    option.textContent = c;
+    cropSelect.appendChild(option);
+  });
+
+  // ✅ Manejar el envío del formulario
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Crear objeto parcela
+    const nuevaParcela = {
+      name: form.name.value,
+      size: form.size.value,
+      crop: { name: form.crop.value },
+      lat: -26.18 + Math.random() * 0.2,
+      lng: -58.17 + Math.random() * 0.2
+    };
+
+    // Leer y guardar en localStorage
+    const parcelas = JSON.parse(localStorage.getItem('parcelas')) || [];
+    parcelas.push(nuevaParcela);
+    localStorage.setItem('parcelas', JSON.stringify(parcelas));
+
+    console.log('📦 Parcela guardada:', nuevaParcela);
+    alert('✅ Parcela registrada correctamente');
+
+    // Redirigir al establecimiento
+    window.location.replace('establecimiento.html');
+  });
+});
+  </script>
+</body>
+</html>
+
+  </script>
 </body>
 </html>

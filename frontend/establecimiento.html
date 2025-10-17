@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AgroSmart - Establecimiento</title>
 
   <!-- Iconos -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <!-- CSS -->
-  <link rel="stylesheet" href="assets/css/home.css">
-  <link rel="stylesheet" href="assets/css/establecimiento.css">
-</head>
-<body>
 
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/home.css" />
+  <link rel="stylesheet" href="assets/css/establecimiento.css" />
+</head>
+
+<body>
   <!-- 🔝 NAVBAR -->
   <header class="navbar">
     <a href="#" class="navbar-brand">
@@ -23,14 +25,13 @@
     <nav>
       <ul>
         <li><a href="home.html">Inicio</a></li>
-        <li><a href="establecimiento.html" class="active">Establecimiento</a></li>
-        <li><a href="clima.html">El Clima</a></li>
+        <li><a href="establecimiento.html">Mi Establecimiento</a></li>
+        <li><a href="clima.html">Clima</a></li>
+        <li><a href="plagas.html">Plagas</a></li>
         <li><a href="chat.html">AgroBot</a></li>
+         <li><a href="monitoreo-suelo.html">Monitoreo del Suelo</a></li>
       </ul>
     </nav>
-    <button class="btn-logout" id="logOut" onclick="logOut()">
-      <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-    </button>
   </header>
 
   <!-- 🏡 HERO -->
@@ -49,21 +50,15 @@
     <aside class="sidebar">
       <div class="section">
         <h3><i class="fas fa-map"></i> Mis Parcelas</h3>
-        <div id="listaParcelas" class="list"></div>
+        <div id="parcelas-list" class="list"></div>
         <button id="btnNuevaParcela" class="btn-add">
-  <i class="fas fa-plus"></i> Registrar Parcela
-</button>
-
+          <i class="fas fa-plus"></i> Registrar Parcela
+        </button>
       </div>
 
       <div class="section">
         <h3><i class="fas fa-seedling"></i> Cultivos</h3>
         <div id="listaCultivos" class="list"></div>
-      </div>
-
-      <div class="section">
-        <h3><i class="fas fa-cow"></i> Ranchos</h3>
-        <div id="listaRanchos" class="list"></div>
       </div>
     </aside>
   </section>
@@ -77,6 +72,103 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="assets/js/home.js"></script>
   <script src="assets/js/logOut.js"></script>
-  <script src="assets/js/establecimiento.js"></script>
+  <script>
+    
+document.addEventListener("DOMContentLoaded", async () => {
+  // Inicializar mapa
+  const map = L.map("map").setView([-26.2, -58.2], 8);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors",
+  }).addTo(map);
+
+  const listaParcelas = document.getElementById("parcelas-list");
+  const listaCultivos = document.getElementById("listaCultivos");
+
+  // Función que intenta obtener parcelas del backend
+  async function fetchParcelsFromApi() {
+    try {
+      const res = await fetch("/api/parcels");
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      // Soporta dos formatos comunes: array directo o { data: [...] }
+      if (Array.isArray(json)) return json;
+      if (json && Array.isArray(json.data)) return json.data;
+      return [];
+    } catch (err) {
+      console.warn("No se pudo obtener /api/parcels (fallback a localStorage).", err);
+      return null; // null indica que el fetch falló
+    }
+  }
+
+  // Intentar backend primero
+  let parcelas = await fetchParcelsFromApi();
+
+  // Si fetch falló (p. ej. no hay backend), leer desde localStorage
+  if (parcelas === null) {
+    parcelas = JSON.parse(localStorage.getItem("parcelas")) || [];
+    console.info("Cargando parcelas desde localStorage:", parcelas);
+  }
+
+  // Si no hay parcelas mostrar mensaje
+  if (!parcelas || parcelas.length === 0) {
+    listaParcelas.innerHTML = "<p>No hay parcelas registradas.</p>";
+  } else {
+    // Limpiar lista antes de renderizar
+    listaParcelas.innerHTML = "";
+    listaCultivos.innerHTML = "";
+
+    parcelas.forEach((p) => {
+      // Normalizar nombre de cultivo (puede ser objeto o string)
+      const cropName = p?.crop?.name ?? (typeof p.crop === "string" ? p.crop : "Sin cultivo");
+
+      // Elemento de lista lateral
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = `<strong>${p.name ?? "Parcela sin nombre"}</strong><br><small>${cropName}</small>`;
+      listaParcelas.appendChild(div);
+
+      // Coordenadas (si no existen, se generan aleatorias suavemente)
+      const lat = (typeof p.lat === "number") ? p.lat : -26.18 + Math.random() * 0.2;
+      const lng = (typeof p.lng === "number") ? p.lng : -58.17 + Math.random() * 0.2;
+
+      // Marcador en el mapa
+      const marker = L.marker([lat, lng]).addTo(map);
+      marker.bindPopup(`<b>${p.name ?? "Parcela"}</b><br>${cropName}`);
+      marker.on("click", () => mostrarCultivos(p));
+
+      // Al hacer click en el elemento de la lista, centrar el mapa y abrir popup
+      div.addEventListener("click", () => {
+        map.setView([lat, lng], 13);
+        marker.openPopup();
+        mostrarCultivos(p);
+      });
+    });
+  }
+
+  // Función para mostrar información del cultivo
+  function mostrarCultivos(parcela) {
+    const nombre = parcela?.crop?.name ?? (typeof parcela.crop === "string" ? parcela.crop : "Sin dato");
+    const tipo = parcela?.crop?.cycle ?? "No especificado";
+    const estacion = parcela?.crop?.season ?? "No especificado";
+
+    listaCultivos.innerHTML = `
+      <div class="item">
+        <strong>${nombre}</strong><br>
+        Tipo: ${tipo}<br>
+        Estación: ${estacion}
+      </div>
+    `;
+  }
+
+  // Botón para registrar nueva parcela
+  document.getElementById("btnNuevaParcela").addEventListener("click", () => {
+    window.location.href = "registro-parcela.html";
+  });
+
+  console.log("Establecimiento inicializado. Parcelas cargadas:", parcelas);
+});
+</script>
+
+  </script>
 </body>
 </html>

@@ -1,0 +1,819 @@
+<!-- ...existing code... -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AgroSmart - Plagas Agrícolas</title>
+
+  <!-- Fuentes e iconos -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <style>
+:root{
+  --verde-1:#1b5e20;
+  --verde-2:#2e7d32;
+  --verde-3:#388e3c;
+  --verde-4:#66bb6a;
+  --crema:#f1f7f2;
+  --texto:#17321f;
+  --blanco:#ffffff;
+  --shadow: 0 10px 30px rgba(23,50,31,0.08);
+  --glass: rgba(255,255,255,0.7);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:var(--crema);
+  color:var(--texto);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+}
+
+/* Barra de navegación */
+nav {
+  background:var(--verde-2);
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0.8rem 1.5rem;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+nav .logo {
+  display:flex;
+  align-items:center;
+  font-weight:600;
+  font-size:1.2rem;
+}
+nav .logo img {
+  width:35px;
+  margin-right:10px;
+}
+nav ul {
+  list-style:none;
+  display:flex;
+  gap:1.5rem;
+  margin:0;
+  padding:0;
+}
+nav ul li a {
+  color:white;
+  text-decoration:none;
+  font-weight:500;
+}
+nav ul li a:hover {
+  text-decoration:underline;
+}
+
+
+/* 🌿 NAVBAR */
+.navbar{
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  background: linear-gradient(90deg,var(--verde-1),var(--verde-2));
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 40px;
+  z-index:1000;
+  box-shadow:0 4px 18px rgba(0,0,0,0.25);
+}
+.navbar-brand{
+  display:flex;
+  align-items:center;
+  color:var(--blanco);
+  font-weight:700;
+  font-size:1.25rem;
+  text-decoration:none;
+}
+.brand-icon{
+  background:rgba(255,255,255,0.08);
+  border-radius:50%;
+  padding:8px;
+  margin-right:10px;
+  color:var(--verde-4);
+}
+
+.navbar ul{
+  list-style:none;
+  display:flex;
+  gap:22px;
+}
+.navbar a{
+  color:var(--blanco);
+  text-decoration:none;
+  font-weight:500;
+  transition:color 0.3s ease;
+}
+.navbar a:hover{ color:var(--verde-4); }
+
+.btn-logout{
+  background:var(--verde-4);
+  color:var(--texto);
+  border:none;
+  border-radius:25px;
+  padding:8px 16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:background 0.3s ease, transform 0.2s;
+}
+.btn-logout:hover{
+  background:var(--verde-3);
+  transform:translateY(-3px);
+}
+
+/* HERO */
+.header-hero{padding-top:86px}
+.hero{
+  margin:18px 20px;
+  border-radius:14px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  min-height:36vh;
+  background-image:
+    linear-gradient(180deg, rgba(27,94,32,0.45), rgba(27,94,32,0.18)),
+    url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1600&q=80');
+  background-size:cover;
+  background-position:center;
+  color:#fff;
+  box-shadow:var(--shadow);
+  padding:48px 20px;
+}
+.hero h1{margin:0 0 10px;font-size:clamp(24px,4.2vw,40px);line-height:1.06;font-weight:700;text-shadow:0 8px 28px rgba(11,38,18,0.5)}
+.hero p{margin:0 0 18px;font-weight:500;opacity:0.95;max-width:900px}
+.cta{background:linear-gradient(90deg,var(--verde-2),var(--verde-4));color:var(--blanco);padding:12px 18px;border-radius:26px;border:none;font-weight:700;cursor:pointer;box-shadow:0 10px 30px rgba(34,197,94,0.10)}
+
+/* MAIN */
+main{padding:0 0 48px}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+main h2{color:var(--verde-1);text-align:center;margin:18px 0 8px;font-size:22px}
+
+/* PLAGAS - tarjetas mejoradas */
+.plagas-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:22px;
+  margin:18px 0;
+}
+.card{
+  background:linear-gradient(180deg,var(--blanco),#fbfffb);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  transition:transform .32s cubic-bezier(.2,.9,.3,1), box-shadow .28s;
+  transform:translateY(8px);
+  opacity:0;
+  display:flex;
+  flex-direction:column;
+  min-height:360px;
+}
+.card.visible{opacity:1;transform:none}
+.card:hover{transform:translateY(-8px);box-shadow:0 18px 36px rgba(23,50,31,0.12)}
+.card .media{
+  position:relative;
+  height:180px;
+  overflow:hidden;
+}
+.card .media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+.card:hover .media img{transform:scale(1.06)}
+.card .content{padding:16px;flex:1;display:flex;flex-direction:column}
+.card h3{margin:0 0 6px;color:var(--verde-1);font-size:18px}
+.sci{font-style:italic;color:rgba(23,50,31,0.6);font-size:13px;margin-bottom:8px}
+.card p{margin:0 0 12px;color:rgba(23,50,31,0.9);font-size:14px;flex:0}
+.meta-row{display:flex;gap:8px;align-items:center;margin-top:auto;justify-content:space-between}
+.tag{padding:6px 10px;border-radius:999px;background:linear-gradient(90deg, rgba(30,120,40,0.06), rgba(102,187,106,0.04));color:var(--verde-1);font-weight:600;font-size:13px}
+.actions{display:flex;gap:8px;align-items:center}
+.link-more{background:linear-gradient(90deg,var(--verde-2),var(--verde-4));color:var(--blanco);padding:8px 12px;border-radius:22px;text-decoration:none;font-weight:700;font-size:14px;display:inline-flex;gap:8px;align-items:center}
+.toggle-btn{
+  background:transparent;border:2px solid rgba(23,50,31,0.06);padding:8px 12px;border-radius:22px;color:var(--verde-1);cursor:pointer;font-weight:700;
+}
+
+/* contenido expandible (prevención) */
+.extra{
+  margin-top:12px;
+  padding:12px;
+  background:linear-gradient(180deg, rgba(102,187,106,0.04), rgba(102,187,106,0.02));
+  border-radius:10px;
+  display:none;
+  font-size:14px;
+  color:rgba(23,50,31,0.9);
+}
+.extra ul{margin:8px 0 0 18px}
+
+/* PREVENCIÓN breve */
+.grid-helpers{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.helper{flex:1;min-width:220px;background:var(--blanco);padding:14px;border-radius:10px;box-shadow:var(--shadow)}
+
+/* FOOTER */
+footer{margin:18px 20px 40px;border-radius:10px;padding:14px;background:linear-gradient(90deg,var(--verde-1),var(--verde-2));color:var(--blanco);text-align:center}
+
+/* RESPONSIVE */
+@media (max-width:920px){
+  .nav-links{display:none}
+  .hero{min-height:40vh}
+  .form form{grid-template-columns:1fr}
+}
+.fade-in{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s ease}
+.fade-in.visible{opacity:1;transform:none}
+  </style>
+</head>
+<body>
+      <nav>
+      <a href="#" class="navbar-brand">
+        <i class="fas fa-leaf brand-icon"></i> AgroSmart
+      </a>
+      <ul>
+
+        <ul>
+          <li><a href="home.html">Inicio</a></li>
+          <li><a href="establecimiento.html">Mi Establecimiento</a></li>
+          <li><a href="clima.html">Clima</a></li>
+          <li><a href="plagas.html">Plagas</a></li>
+          <li><a href="chat.html">AgroBot</a></li>
+           <li><a href="monitoreo-suelo.html">Monitoreo del Suelo</a></li>
+
+        </ul>
+
+    </nav>
+
+  <header class="header-hero">
+    <section class="hero" id="inicio">
+      <div class="container">
+        <h1>Protege tus cultivos: información y soluciones prácticas</h1>
+        <p>Identifica plagas clave, entiende su impacto y aplica prácticas sostenibles y verificadas para reducir daños y mejorar rendimiento.</p>
+        <div style="display:flex;gap:12px;justify-content:center">
+          <button class="cta" onclick="document.getElementById('plagas').scrollIntoView({behavior:'smooth'})"><i class="fa-solid fa-bug"></i>&nbsp; Ver plagas</button>
+          <a class="cta" href="#prevencion" style="background:transparent;border:2px solid rgba(255,255,255,0.18);">Buenas prácticas</a>
+        </div>
+      </div>
+    </section>
+  </header>
+
+  <main class="container" role="main">
+    <h2 id="plagas">Plagas Comunes en Cultivos</h2>
+
+    <section class="plagas-container" aria-label="Lista de plagas">
+      <!-- 1 -->
+      <article class="card fade-in" aria-labelledby="g1" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Spodoptera_frugiperda.jpg" alt="Gusano cogollero Spodoptera frugiperda"></div>
+        <div class="content">
+          <h3 id="g1">Gusano cogollero (Spodoptera frugiperda)</h3>
+          <div class="sci">Spodoptera frugiperda</div>
+          <p>Defoliador voraz que reduce la capacidad fotosintética y el rendimiento en maíz y otros cultivos.</p>
+
+          <div class="meta-row">
+            <span class="tag">Maíz</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Spodoptera_frugiperda" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Defoliación, reducción de rendimiento y posible pérdida total en infestaciones severas.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Monitoreo con trampas de luz y feromonas.</li>
+              <li>Control biológico (parásitos y entomopatógenos).</li>
+              <li>Siembra temprana y rotación de cultivos.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2 -->
+      <article class="card fade-in" aria-labelledby="g2" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Aphis_gossypii04.jpg" alt="Pulgón Aphis gossypii"></div>
+        <div class="content">
+          <h3 id="g2">Pulgón (Aphis gossypii)</h3>
+          <div class="sci">Aphis gossypii</div>
+          <p>Succión de savia y transmisión de virus; provoca deformaciones y debilitamiento general.</p>
+
+          <div class="meta-row">
+            <span class="tag">Hortalizas / Frutales</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Aphis_gossypii" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Menor vigor, posibles pérdidas por virus transmitidos.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Fomentar enemigos naturales (mariquitas, crisopas).</li>
+              <li>Manejo integrado y reducción de estrés hídrico.</li>
+              <li>Aplicar tratamientos selectivos solo si superan umbrales.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3 -->
+      <article class="card fade-in" aria-labelledby="g3" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Bemisia_tabaci_from_USDA_1.jpg/800px-Bemisia_tabaci_from_USDA_1.jpg" alt="Mosca blanca Bemisia tabaci"></div>
+        <div class="content">
+          <h3 id="g3">Mosca blanca (Bemisia tabaci)</h3>
+          <div class="sci">Bemisia tabaci</div>
+          <p>Provoca amarillamiento, fumagina y transmite virus en múltiples hortícolas.</p>
+
+          <div class="meta-row">
+            <span class="tag">Hortícolas</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Bemisia_tabaci" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Reducción de calidad y transmisión de virus.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Trampas adhesivas amarillas para monitoreo.</li>
+              <li>Control biológico y reducción de fuentes de infestación.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4 -->
+      <article class="card fade-in" aria-labelledby="g4" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Tuta_absoluta_5432149.jpg/250px-Tuta_absoluta_5432149.jpg" alt="Minador del tomate Tuta absoluta"></div>
+        <div class="content">
+          <h3 id="g4">Minador del tomate (Tuta absoluta)</h3>
+          <div class="sci">Tuta absoluta</div>
+          <p>Ataque a hojas, tallos y frutos; alta capacidad de daño en tomate y solanáceas.</p>
+
+          <div class="meta-row">
+            <span class="tag">Tomate</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Tuta_absoluta" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Pérdida de fruto y calidad.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Monitoreo con trampas de feromonas.</li>
+              <li>Control biológico y manejo de residuos infestados.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+    
+
+      <!-- 6 -->
+      <article class="card fade-in" aria-labelledby="g6" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Helicoverpa_armigera.jpg/250px-Helicoverpa_armigera.jpg" alt="Helicoverpa armigera oruga"></div>
+        <div class="content">
+          <h3 id="g6">Oruga Helicoverpa (Helicoverpa armigera)</h3>
+          <div class="sci">Helicoverpa armigera</div>
+          <p>Ataca flores, frutos y semillas en diversos cultivos; alto potencial de pérdida económica.</p>
+
+          <div class="meta-row">
+            <span class="tag">Varios cultivos</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Helicoverpa_armigera" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Pérdida de producción por daño directo a órganos reproductivos.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Monitoreo con trampas y observación regular.</li>
+              <li>Control biológico y medidas culturales para reducir focos.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- AÑADIR: 15 plagas más -->
+      <!-- 7 -->
+      <article class="card fade-in" aria-labelledby="g7" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Colorado_potato_beetle.jpg/250px-Colorado_potato_beetle.jpg" alt="Gorgojo de la patata Leptinotarsa decemlineata"></div>
+        <div class="content">
+          <h3 id="g7">Gorgojo de la patata (Leptinotarsa decemlineata)</h3>
+          <div class="sci">Leptinotarsa decemlineata</div>
+          <p>Consume follaje de solanáceas; puede defoliar rápidamente y reducir rendimiento.</p>
+          <div class="meta-row">
+            <span class="tag">Papa / Solanáceas</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Leptinotarsa_decemlineata" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Defoliación, estrés y menor calidad de tubérculos.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Monitoreo y recolección manual en lotes pequeños.</li>
+              <li>Rotación de cultivos y uso de trampas y enemigos naturales.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 8 -->
+      <article class="card fade-in" aria-labelledby="g8" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Tetranychus-urticae.jpg/250px-Tetranychus-urticae.jpg" alt="Araña roja Tetranychus urticae"></div>
+        <div class="content">
+          <h3 id="g8">Araña roja (Tetranychus urticae)</h3>
+          <div class="sci">Tetranychus urticae</div>
+          <p>Pica hojas causando clorosis, pérdida de vigor y reducción en rendimiento.</p>
+          <div class="meta-row">
+            <span class="tag">Hortícolas / Ornamentales</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Tetranychus_urticae" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Manchas, pérdida de follaje y calidad de producto.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Riego foliar y control biológico con ácaros benéficos.</li>
+              <li>Evitar estrés hídrico y rotar cultivos sensibles.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 9 -->
+      <article class="card fade-in" aria-labelledby="g9" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Plutella.maculipennis.mounted.jpg/250px-Plutella.maculipennis.mounted.jpg" alt="Polilla del repollo Plutella xylostella"></div>
+        <div class="content">
+          <h3 id="g9">Polilla del repollo (Plutella xylostella)</h3>
+          <div class="sci">Plutella xylostella</div>
+          <p>Larvas perforan hojas de crucíferas, causando daños en repollo, col y brócoli.</p>
+          <div class="meta-row">
+            <span class="tag">Crucíferas</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Plutella_xylostella" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Perdida de hojas y calidad comercial del cultivo.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Monitoreo con trampas de feromonas y barreras físicas.</li>
+              <li>Control biológico con parasitoides y uso selectivo de insecticidas.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 10 -->
+      <article class="card fade-in" aria-labelledby="g10" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Frankliniella_occidentalis_5364132-LGPT.jpg/250px-Frankliniella_occidentalis_5364132-LGPT.jpg" alt="Thrips Frankliniella occidentalis"></div>
+        <div class="content">
+          <h3 id="g10">Thrips occidentalis (Frankliniella occidentalis)</h3>
+          <div class="sci">Frankliniella occidentalis</div>
+          <p>Causa manchas y deformaciones; vectores de virus en ornamentales y hortícolas.</p>
+          <div class="meta-row">
+            <span class="tag">Hortalizas / Ornamentales</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Frankliniella_occidentalis" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Manchas plateadas, reducción de calidad y transmisión viral.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Trampas adhesivas, ventilación y control biológico con especies predadoras.</li>
+              <li>Manejo integrado evitando aplicaciones indiscriminadas.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 11 -->
+      <article class="card fade-in" aria-labelledby="g11" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Fly_October_2008-4.jpg/250px-Fly_October_2008-4.jpg" alt="Mosca mediterránea Ceratitis capitata"></div>
+        <div class="content">
+          <h3 id="g11">Mosca mediterránea de la fruta (Ceratitis capitata)</h3>
+          <div class="sci">Ceratitis capitata</div>
+          <p>Ataca frutos, provoca pudrición interna y pérdidas en frutales y cítricos.</p>
+          <div class="meta-row">
+            <span class="tag">Frutales</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Ceratitis_capitata" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Frutos no comercializables y restricciones fitosanitarias.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Trampas de atracción y captura masiva.</li>
+              <li>Manejo de residuos y recolección temprana.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 12 -->
+      <article class="card fade-in" aria-labelledby="g12" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Sitophilus.oryzae.7438.jpg/250px-Sitophilus.oryzae.7438.jpg" alt="Gorgojo del arroz Sitophilus oryzae"></div>
+        <div class="content">
+          <h3 id="g12">Gorgojo del arroz (Sitophilus oryzae)</h3>
+          <div class="sci">Sitophilus oryzae</div>
+          <p>Plaga de almacenamiento que daña granos, reduce peso y calidad del grano.</p>
+          <div class="meta-row">
+            <span class="tag">Granos almacenados</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Sitophilus_oryzae" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Pérdidas en almacenamiento, contaminación y pérdidas económicas.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Almacenaje seco y rotación de stock.</li>
+              <li>Trampas y saneamiento de silos; control térmico o fumigación autorizada.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 13 -->
+      <article class="card fade-in" aria-labelledby="g13" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Agrotis_ipsilon_aneituma.jpg/250px-Agrotis_ipsilon_aneituma.jpg" alt="Gusano cortador Agrotis ipsilon"></div>
+        <div class="content">
+          <h3 id="g13">Gusano cortador (Agrotis ipsilon)</h3>
+          <div class="sci">Agrotis ipsilon</div>
+          <p>Orugas que cortan plántulas en el cuello; daño crítico en siembras y viveros.</p>
+          <div class="meta-row">
+            <span class="tag">Hortalizas / Cereales</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Agrotis_ipsilon" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Corte de plántulas y pérdidas de establecimiento.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Siembra profunda moderada, manejo de rastrojos y control biológico.</li>
+              <li>Aplicar medidas preventivas en bandas de riesgo.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 14 -->
+      <article class="card fade-in" aria-labelledby="g14" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Grapholita_molesta_dorsal.jpg/250px-Grapholita_molesta_dorsal.jpg" alt="Polilla del manzano Grapholita molesta"></div>
+        <div class="content">
+          <h3 id="g14">Polilla del manzano (Grapholita molesta)</h3>
+          <div class="sci">Grapholita molesta</div>
+          <p>Daño interno en frutos de manzano y frutales de carozo; reduce calidad comercial.</p>
+          <div class="meta-row">
+            <span class="tag">Frutales</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Grapholita_molesta" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Frutos dañados, pudrición y pérdida comercial.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Trampas de feromonas y tratamiento dirigido en ventanas de vuelo.</li>
+              <li>Eliminación de frutos infestados y control biológico donde aplique.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 15 -->
+      <article class="card fade-in" aria-labelledby="g15" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Nemapogon_granella01.jpg/800px-Nemapogon_granella01.jpg" alt="Polilla de la papa Phthorimaea operculella"></div>
+        <div class="content">
+          <h3 id="g15">Polilla de la papa (Tineidae)</h3>
+          <div class="sci">Tineidae</div>
+          <p>Ataca hojas y tubérculos; larvas perforan tubérculos y provocan pérdidas.</p>
+          <div class="meta-row">
+            <span class="tag">Papa / Solanáceas</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Tineidae" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Tubérculos contaminados, pérdidas en almacenamiento.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Manejo de residuos y control de plantas voluntarias.</li>
+              <li>Protección de tubérculos en almacenamiento y control biológico.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 16 -->
+      <article class="card fade-in" aria-labelledby="g16" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Diabrotica_speciosa_10_washing_its_face_lav%C3%A1ndose_la_carita_1.JPG" alt="Diabrotica speciosa"></div>
+        <div class="content">
+          <h3 id="g16">Diabrotica (Diabrotica speciosa)</h3>
+          <div class="sci">Diabrotica speciosa</div>
+          <p>Ataca raíces y tejidos vegetativos, reduce vigor y cosecha en maíz y sorgo.</p>
+          <div class="meta-row">
+            <span class="tag">Maíz / Sorgo</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Diabrotica_speciosa" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Daño radicular y reducción de rendimiento.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Rotación y manejo de rastrojos; trampas y monitoreo.</li>
+              <li>Uso de prácticas que mejoren la salud radicular.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 17 -->
+      <article class="card fade-in" aria-labelledby="g17" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Schizaphis_graminum_oat_usda_%28cropped%29.jpg/250px-Schizaphis_graminum_oat_usda_%28cropped%29.jpg" alt="Pulgón del cereal Rhopalosiphum padi"></div>
+        <div class="content">
+          <h3 id="g17">Pulgón del cereal (Schizaphis graminum)</h3>
+          <div class="sci">Schizaphis graminum</div>
+          <p>Vector de virus en cereales; puede reducir calidad y rendimiento.</p>
+          <div class="meta-row">
+            <span class="tag">Cereales</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Schizaphis_graminum" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Transmisión de virosis y debilitamiento del cultivo.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Monitoreo y fomento de enemigos naturales.</li>
+              <li>Manejo integrado y control sólo según umbrales.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 18 -->
+      <article class="card fade-in" aria-labelledby="g18" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Helicoverpa_armigera.jpg/250px-Helicoverpa_armigera.jpg" alt="Helicoverpa armigera larva alternativa"></div>
+        <div class="content">
+          <h3 id="g18">Helicoverpa armigera (variación)</h3>
+          <div class="sci">Helicoverpa armigera</div>
+          <p>Polilla con orugas que dañan flores y frutos, importante en cultivos extensivos.</p>
+          <div class="meta-row">
+            <span class="tag">Varios</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Helicoverpa_armigera" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Daño directo a órganos reproductivos, pérdida económica.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Monitoreo y control biológico; trampa de luz en casos puntuales.</li>
+              <li>Rotación y manejo de umbrales técnicos.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+     
+      
+
+      <!-- 20 -->
+      <article class="card fade-in" aria-labelledby="g20" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Sd_adult_spread.jpg/1024px-Sd_adult_spread.jpg" alt="Thrips Scirtothrips dorsalis"></div>
+        <div class="content">
+          <h3 id="g20">Thrips de las hojas (Scirtothrips dorsalis)</h3>
+          <div class="sci">Scirtothrips dorsalis</div>
+          <p>Produce manchas y reduce calidad en hortalizas y frutales; vector de virus en algunos casos.</p>
+          <div class="meta-row">
+            <span class="tag">Hortalizas / Frutales</span>
+            <div class="actions">
+              <a class="link-more" href="https://en.wikipedia.org/wiki/Scirtothrips_dorsalis" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Manchado foliar y pérdida de valor estético y comercial.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Trampas adhesivas y control biológico.</li>
+              <li>Buen manejo de humedad y ventilación en invernaderos.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- 21 -->
+      <article class="card fade-in" aria-labelledby="g21" tabindex="0">
+        <div class="media"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Asian_Citrus_Psyllid_adult.jpg/250px-Asian_Citrus_Psyllid_adult.jpg" alt="Psílido asiático de los cítricos Diaphorina citri"></div>
+        <div class="content">
+          <h3 id="g21">Psílido de los cítricos (Diaphorina citri)</h3>
+          <div class="sci">Diaphorina citri</div>
+          <p>Vector de la enfermedad Huanglongbing; impacto severo en cítricos y producción comercial.</p>
+          <div class="meta-row">
+            <span class="tag">Cítricos</span>
+            <div class="actions">
+              <a class="link-more" href="https://es.wikipedia.org/wiki/Diaphorina_citri" target="_blank" rel="noopener"><i class="fa-solid fa-link"></i> Ver</a>
+              <button class="toggle-btn" aria-expanded="false">Detalles</button>
+            </div>
+          </div>
+          <div class="extra" aria-hidden="true">
+            <strong>Impacto:</strong> Transmisión de Huanglongbing, pérdida de productividad y plantas no comercializables.
+            <strong style="display:block;margin-top:8px">Prevención / Control:</strong>
+            <ul>
+              <li>Monitoreo estricto y erradicación de focos; manejo fitosanitario regional.</li>
+              <li>Uso de material sano y control de vectores con medidas integradas.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+
+    </section>
+
+    <!-- Prevención -->
+    <section id="prevencion" class="container" aria-label="Prevención">
+      <h2>Prevención y Manejo Integrado</h2>
+      <p style="text-align:center;color:rgba(23,50,31,0.8);max-width:900px;margin:6px auto 12px">Monitoreo, uso de enemigos naturales, rotación de cultivos y saneamiento. Aplicar medidas químicas sólo cuando se superen umbrales técnicos.</p>
+      <div class="grid-helpers">
+        <div class="helper"><strong>Monitoreo</strong><p style="margin:8px 0 0 0">Trampas y recorridos periódicos para detección temprana.</p></div>
+        <div class="helper"><strong>Control biológico</strong><p style="margin:8px 0 0 0">Fomentar depredadores y parásitos naturales.</p></div>
+        <div class="helper"><strong>Buenas prácticas</strong><p style="margin:8px 0 0 0">Rotación, saneamiento y manejo de residuos.</p></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer role="contentinfo">
+    © 2025 AgroSmart - Innovación para un campo más sano
+  </footer>
+
+  <script>
+    // Fade-in observer for cards and elements
+    (function(){
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting) e.target.classList.add('visible');
+        });
+      }, {threshold: 0.12});
+      document.querySelectorAll('.fade-in, .card').forEach(el=> io.observe(el));
+    })();
+
+    // Toggle details in each card (accessibility friendly)
+    (function(){
+      document.querySelectorAll('.toggle-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const extra = btn.closest('.content').querySelector('.extra');
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', String(!expanded));
+          if(!expanded){
+            extra.style.display = 'block';
+            extra.setAttribute('aria-hidden','false');
+            extra.scrollIntoView({behavior:'smooth',block:'nearest'});
+          } else {
+            extra.style.display = 'none';
+            extra.setAttribute('aria-hidden','true');
+          }
+        });
+      });
+      // Keyboard accessibility: toggle with Enter/Space
+      document.addEventListener('keydown', (e)=>{
+        if((e.key === 'Enter' || e.key === ' ') && document.activeElement.classList.contains('toggle-btn')){
+          e.preventDefault();
+          document.activeElement.click();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+<!-- ...existing code... -->

@@ -1,5 +1,6 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,25 +8,30 @@
 
   <!-- Iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
- <link rel="stylesheet" href="assets/css/home.css">
-  
+  <link rel="stylesheet" href="assets/css/home.css">
+
 </head>
+
 <body>
 
   <!-- 🔝 NAVBAR -->
   <header class="navbar">
-    <a href="#" class="navbar-brand">
-      <i class="fas fa-leaf brand-icon"></i> AgroSmart
-    </a>
     <nav>
+      <a href="#" class="navbar-brand">
+        <i class="fas fa-leaf brand-icon"></i> AgroSmart
+      </a>
       <ul>
-         <li><a href="home.html">Inicio</a></li>
-        <li><a href="establecimiento.html">Mi establecimiento</a></li>
-        <li><a href="clima.html">Clima</a></li>
-        <li><a href="plagas-.html">Plagas</a></li>
-        <li><a href="chat.html">ChatAi</a></li>
-        
-      </ul>
+
+        <ul>
+          <li><a href="home.html">Inicio</a></li>
+          <li><a href="establecimiento.html">Mi Establecimiento</a></li>
+          <li><a href="clima.html">Clima</a></li>
+          <li><a href="plagas.html">Plagas</a></li>
+          <li><a href="chat.html">AgroBot</a></li>
+           <li><a href="monitoreo-suelo.html">Monitoreo del Suelo</a></li>
+
+        </ul>
+
     </nav>
     <button class="btn-logout" id="logOut" onclick="logOut()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
   </header>
@@ -39,13 +45,14 @@
     </div>
   </section>
 
- 
+
 
   <!-- 📊 INFO SECTION -->
   <section id="info" class="info-section">
     <h2>Gestión Integral AgroSmart</h2>
-    <p>Nuestra plataforma unifica el monitoreo de suelo, clima, cultivos, plagas y ganado, brindándote una visión completa de tu producción. 
-       Mejora la eficiencia, reduce desperdicios y toma decisiones inteligentes para un campo más sustentable.</p>
+    <p>Nuestra plataforma unifica el monitoreo de suelo, clima, cultivos, plagas y ganado, brindándote una visión
+      completa de tu producción.
+      Mejora la eficiencia, reduce desperdicios y toma decisiones inteligentes para un campo más sustentable.</p>
 
     <div class="info-cards">
       <div class="card">
@@ -73,7 +80,8 @@
   </footer>
 
   <!-- 🎬 Scripts -->
- <script src="assets/js/home.js"></script>
-<script src="assets/js/logOut.js"></script>
+  <script src="assets/js/home.js"></script>
+  <script src="assets/js/logOut.js"></script>
 </body>
+
 </html>

@@ -7,10 +7,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Simulación: parcelas del usuario
-const parcelas = [
-  { id: 1, name: "Parcela Norte", lat: -26.19, lng: -58.22 },
-  { id: 2, name: "Parcela Sur", lat: -26.25, lng: -58.18 },
-];
+
 
 // Renderizar parcelas en el mapa
 parcelas.forEach((p) => {
@@ -58,10 +55,7 @@ function mostrarCultivos(idParcela) {
 }
 
 // Simulación: ranchos
-const ranchos = [
-  { nombre: "Rancho Principal", ganado: 20, saludPromedio: "Buena" },
-  { nombre: "Rancho Secundario", ganado: 12, saludPromedio: "Regular" },
-];
+
 
 const listaRanchos = document.getElementById("listaRanchos");
 ranchos.forEach((r) => {
@@ -78,32 +72,28 @@ ranchos.forEach((r) => {
 // Registrar nueva parcela (simulación)
 
 document.getElementById("btnNuevaParcela").addEventListener("click", () => {
-  window.location.href = "registro-parcela.html";
+  window.location.replace("registro-parcelas.html"); // o abre un modal
 });
 
-async function cargarParcelas() {
-  try {
-    const res = await fetch("http://localhost:3000/api/parcel");
-    const data = await res.json();
 
-    const listaParcelas = document.getElementById("listaParcelas");
+adocument.addEventListener("DOMContentLoaded", async () => {
+  const container = document.getElementById("parcelas-list");
 
-    data.data.forEach(p => {
-      // Agregar marcador en mapa
-     const lat = p.lat || -26.2 + Math.ramdom() * 0.1;
-     const lng = p.lng || -58.2 + Math.ramdom() * 0.1;
-      // Agregar a la lista lateral
-    //   const div = document.createElement("div");
-    //   div.className = "item";
-    //   div.innerHTML = `<strong>${p.name}</strong>`;
-    //   listaParcelas.appendChild(div)
-    // ;
-    const marker = L.marker([lat,lng]).addTo(map);
-    marker.bindPopup(`Parcela:${p.name}`)
-    });
-  } catch (err) {
-    console.error("Error cargando parcelas:", err);
+  const res = await fetch("/api/parcels");
+  const data = await res.json();
+
+  if (data.data.length === 0) {
+    container.innerHTML = "<p>No hay parcelas registradas.</p>";
+    return;
   }
-}
+
+  container.innerHTML = data.data.map(p => `
+    <div class="parcela">
+      <h3>${p.name}</h3>
+      <p><b>Tamaño:</b> ${p.size} ha</p>
+      <p><b>Cultivo:</b> ${p.crop.name}</p>
+    </div>
+  `).join("");
+});
 
 cargarParcelas();
