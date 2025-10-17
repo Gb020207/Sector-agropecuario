@@ -1,77 +1,49 @@
+
+import { Crop } from "../models/crop.model.js";
 import { Parcel } from "../models/parcel.models.js";
 
+// GET /api/parcels
+export const getParcels = async (req, res) => {
+  try {
+    const parcels = await Parcel.find().populate("crop");
+    res.json({ success: true, data: parcels });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+// POST /api/parcels
 export const createParcel = async (req, res) => {
-    const { establishment,name, farmer, crop, cattle,} = req.body;
-    try {
-        if (name === "" || name === undefined || farmer === "" || farmer === undefined || crop === "" || crop === undefined || cattle === "" || cattle === undefined) {
-            return res.status(400).json({
-                msg: "Todos los campos son requeridos",
-            })
-        };
-        const parcel = await Parcel.create({ establishment,name,farmer, crop, cattle });
-        return res.status(200).json({
-            msg: "Parcela creada",
-            data: parcel,
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            msg: "Error del servidor"
-        })
-    }
+  try {
+    const { name, size, cropName, cycle, season } = req.body;
 
-}
-export const getParcel = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const parcel = await Parcel.findById(id).populate('farmer').populate('cattle').populate('crop')
-        return res.status(201).json(
-            {
-                data: parcel,
-            }
-        )
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            msg: "Error del servidor"
-        })
-    }
+    if (!name || !size || !cropName)
+      return res.status(400).json({ success: false, message: "Faltan datos obligatorios" });
 
-};
-export const updateParcel = async (req, res) => {
-    const { id } = req.params;
-    const { name, crop, cattle } = req.body;
-    try {
-        if (!id) {
-            return res.status(400).json({ msg: "el id es invalido coloque un id valido" })
-        }
-        const parcel = await Parcel.findByIdAndUpdate(id,
-            { name, crop, cattle },
-            { new: true }
-        )
-        return res.status(201).json({
-            msg: "Parcela actualizada",
-            data: parcel,
-        })
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            msg: "Error del servidor"
-        })
-    }
+    // 1️⃣ Crear la parcela
+    const parcel = new Parcel({ name, size });
+    await parcel.save();
 
-};
+    // 2️⃣ Crear el cultivo vinculado
+    const crop = new Crop({
+      name: cropName,
+      cycle: cycle || "anual",
+      season: season || "verano",
+      parcelId: parcel._id
+    });
+    await crop.save();
 
-export const deleteParcel = async (req, res) => {
-    const { id } = req.params;
-    try {
-        if (!id) {
-            return res.status(400).json({ msg: "el id es invalido coloque un id valido" })
-        }
-        const parcel = await Parcel.findByIdAndDelete(id);
-        return res.status(204).json({ msg: "Parcela eliminada correctamente", data: parcel });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ msg: "Error interno del servidor" });
-    }
+    // 3️⃣ Asociar el cultivo a la parcela
+    parcel.crop.push(crop._id);
+    await parcel.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Parcela y cultivo creados correctamente",
+      data: { parcel, crop }
+    });
+  } catch (err) {
+    console.error("Error en createParcel:", err);
+    res.status(500).json({ success: false, message: err.message });
+  }
 };

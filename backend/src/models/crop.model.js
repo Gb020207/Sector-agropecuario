@@ -5,24 +5,21 @@ const Cropschema = new Schema({
         type:String,
         require:true,
     },
-    state:{
+    cycle:{
         type:String,
-        require:true,
-        enum:["good","engaged","bad"],
-        default: "good",
+      },
+    season:{
+       type:String,
     },
-    amount:{
-        type:Number,
-        require:true,
-    },
-    farmer:{
+    parcelId:{
         type:Types.ObjectId,
-        ref:'User',
-        require:true,
-
+        ref:'Parcel'
     },
+    createAt:{
+        type:Date,
+        default:Date.now,
+    }
     
-
 })
 
-export const Crop = model('Crop',Cropschema);
+export const Crop = model("Crop",Cropschema);

@@ -1,33 +1,14 @@
 import { model, Schema, Types } from "mongoose";
-import { Crop } from "./crop.model.js";
-import { Cattle } from "./cattle.models.js";
 
-const Parcelschema = new Schema({
-    establishment:{
-        type:Types.ObjectId,
-        ref:'Establishment',
-        require:true,
-    },
-    crop:[{
-        type:Types.ObjectId,
-        ref:'Crop',
-        require:true,
-    }],
-    cattle:[{
-        type:Types.ObjectId,
-        ref:'Cattle',
-        require:false,
-    }]
-})
-Parcelschema.pre('findOneAndDelete',async function(next) {
-    const parcelId = this.getQuery()._id;
+const parcelSchema = new Schema({
+  name: { type: String, required: true },
+  size: { type: Number, required: true },
+  farmer: { type: String },
+  crop: [{ type: Types.ObjectId, ref: "Crop" }],
+  cattle: [{ type: String }], // por ahora como string o array simple
+  lat: { type: Number },
+  lng: { type: Number },
+  createdAt: { type: Date, default: Date.now }
+});
 
-    const parcel = await Parcel.findById(parcelId)
-
-    await Crop.deleteMany({_id:parcel.crop})  
-    await Cattle.deleteMany({_id:parcel.cattle})  
-
-    next();
-})
-
-export const Parcel = model('Parcel', Parcelschema);
+export const Parcel = model("Parcel", parcelSchema);
