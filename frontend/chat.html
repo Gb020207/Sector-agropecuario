@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asistente Veterinario PRO 6.0</title>
+
+<!-- Fuentes y estilos -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+:root {
+  --verde-1:#1b5e20;
+  --verde-2:#2e7d32;
+  --verde-3:#388e3c;
+  --verde-4:#66bb6a;
+  --crema:#f1f7f2;
+  --texto:#1b1b1b;
+}
+
+body {
+  margin:0;
+  font-family:'Poppins', sans-serif;
+  background:linear-gradient(120deg, var(--verde-1), var(--verde-3));
+  color:var(--texto);
+}
+
+/* Barra de navegación */
+nav {
+  background:var(--verde-2);
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0.8rem 1.5rem;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+nav .logo {
+  display:flex;
+  align-items:center;
+  font-weight:600;
+  font-size:1.2rem;
+}
+nav .logo img {
+  width:35px;
+  margin-right:10px;
+}
+nav ul {
+  list-style:none;
+  display:flex;
+  gap:1.5rem;
+  margin:0;
+  padding:0;
+}
+nav ul li a {
+  color:white;
+  text-decoration:none;
+  font-weight:500;
+}
+nav ul li a:hover {
+  text-decoration:underline;
+}
+
+
+/* 🌿 NAVBAR */
+.navbar{
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  background: linear-gradient(90deg,var(--verde-1),var(--verde-2));
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 40px;
+  z-index:1000;
+  box-shadow:0 4px 18px rgba(0,0,0,0.25);
+}
+.navbar-brand{
+  display:flex;
+  align-items:center;
+  color:var(--blanco);
+  font-weight:700;
+  font-size:1.25rem;
+  text-decoration:none;
+}
+.brand-icon{
+  background:rgba(255,255,255,0.08);
+  border-radius:50%;
+  padding:8px;
+  margin-right:10px;
+  color:var(--verde-4);
+}
+
+.navbar ul{
+  list-style:none;
+  display:flex;
+  gap:22px;
+}
+.navbar a{
+  color:var(--blanco);
+  text-decoration:none;
+  font-weight:500;
+  transition:color 0.3s ease;
+}
+.navbar a:hover{ color:var(--verde-4); }
+
+.btn-logout{
+  background:var(--verde-4);
+  color:var(--texto);
+  border:none;
+  border-radius:25px;
+  padding:8px 16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:background 0.3s ease, transform 0.2s;
+}
+.btn-logout:hover{
+  background:var(--verde-3);
+  transform:translateY(-3px);
+}
+
+/* Chat */
+.chat-container {
+  max-width:700px;
+  margin:2rem auto;
+  background:white;
+  border-radius:20px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.2);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.chat-box {
+  height:500px;
+  overflow-y:auto;
+  padding:1rem;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.message {
+  padding:0.7rem 1rem;
+  border-radius:15px;
+  max-width:80%;
+  line-height:1.4em;
+  opacity:0;
+  transform:translateY(10px);
+  animation:fadeIn 0.3s forwards;
+}
+.user-message {
+  align-self:flex-end;
+  background:var(--verde-3);
+  color:white;
+}
+.bot-message {
+  align-self:flex-start;
+  background:var(--crema);
+  border-left:5px solid var(--verde-2);
+}
+.bot-avatar {
+  width:30px;
+  height:30px;
+  background:url('https://cdn-icons-png.flaticon.com/512/616/616408.png') center/cover;
+  border-radius:50%;
+  display:inline-block;
+  vertical-align:middle;
+  margin-right:8px;
+}
+.input-container {
+  display:flex;
+  background:var(--verde-4);
+  padding:0.5rem;
+}
+.input-container input {
+  flex:1;
+  border:none;
+  border-radius:20px;
+  padding:0.7rem 1rem;
+  outline:none;
+  font-size:1rem;
+}
+.input-container button {
+  border:none;
+  border-radius:20px;
+  background:var(--verde-2);
+  color:white;
+  font-weight:600;
+  padding:0 1.2rem;
+  margin-left:0.5rem;
+  cursor:pointer;
+  transition:background 0.3s;
+}
+.input-container button:hover {
+  background:var(--verde-1);
+}
+
+@keyframes fadeIn {
+  to {opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+  <nav>
+   <a href="#" class="navbar-brand">
+      <i class="fas fa-leaf brand-icon"></i> AgroSmart
+    </a>
+    <ul>
+       
+      <ul>
+         <li><a href="#parcela">Inicio</a></li>
+        <li><a href="#parcela">Mi Parcela</a></li>
+        <li><a href="#clima">Clima</a></li>
+        <li><a href="#plagas">Plagas</a></li>
+        <li><a href="#ganado">Ganado</a></li>
+        <li><a href="#cultivos">Cultivos</a></li>
+      </ul>
+    
+  </nav>
+
+  <div class="chat-container">
+    <div id="chatBox" class="chat-box">
+      <div class="message bot-message"><span class="bot-avatar"></span>🐾 ¡Hola! Soy tu asistente veterinario virtual. Cuéntame qué le pasa a tu animal y te ayudaré 🩺</div>
+    </div>
+    <div class="input-container">
+      <input type="text" id="userInput" placeholder="Describe síntomas o problemas...">
+      <button id="sendBtn">Enviar</button>
+    </div>
+  </div>
+
+  <script>
+   
+  const chatBox = document.getElementById("chatBox");
+  const userInput = document.getElementById("userInput");
+  const sendBtn = document.getElementById("sendBtn");
+
+ 
+
+ 
+    // respuestas genéricas
+    if (/hola|buenas|hey|ola/.test(texto)) {
+      const saludos = [
+        "¡Hola! 🐶 ¿Cómo está tu animal hoy?",
+        "¡Buenas! ¿En qué puedo ayudarte con tus animales?",
+        "¡Hola! Cuéntame qué problema notaste en tu granja 🐄"
+      ];
+      return elegir(saludos);
+    }
+
+    return elegir(fallback);
+  
+
+  function elegir(lista){ return lista[Math.floor(Math.random()*lista.length)]; }
+
+  // funciones de chat
+  function agregarMensaje(texto, tipo){
+    const msg = document.createElement("div");
+    msg.className = "message " + tipo;
+    msg.innerHTML = tipo === "bot-message" ? `<span class="bot-avatar"></span>${texto}` : texto;
+    chatBox.appendChild(msg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function enviarMensaje(){
+    const texto = userInput.value.trim();
+    if (!texto) return;
+    agregarMensaje(texto,"user-message");
+    userInput.value = "";
+    setTimeout(async () => {
+      const respuesta = await fetch(`http://localhost:3000/chat`);// poner aqui el fech  , http://localhost:8000/chat 
+      agregarMensaje(respuesta,"bot-message");
+    }, 600);
+  }
+
+  // eventos
+  sendBtn.addEventListener("click", enviarMensaje);
+  userInput.addEventListener("keypress", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      enviarMensaje();
+    }
+  });
+
+  </script>
+</body>
+</html>
