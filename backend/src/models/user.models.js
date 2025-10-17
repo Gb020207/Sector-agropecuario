@@ -35,7 +35,7 @@ Userschema.pre("findOneAndDelete", async function (next) {
     const userId = this.getQuery()._id;
 
     console.log("Usuario eliminado",userId)
-    const parcels = await Parcel.find({ userId: userId });
+    const parcels = await Parcel.find({ farmer: userId });
     for (const parcel of parcels) {
         await Parcel.findOneAndDelete({ _id: parcel._id }); 
     }

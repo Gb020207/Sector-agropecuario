@@ -83,21 +83,23 @@ document.getElementById("btnNuevaParcela").addEventListener("click", () => {
 
 async function cargarParcelas() {
   try {
-    const res = await fetch("http://localhost:4000/api/parcels");
+    const res = await fetch("http://localhost:3000/api/parcel");
     const data = await res.json();
 
     const listaParcelas = document.getElementById("listaParcelas");
 
     data.data.forEach(p => {
       // Agregar marcador en mapa
-      const marker = L.marker([p.lat, p.lng]).addTo(map);
-      marker.bindPopup(`<b>${p.name}</b>`);
-
+     const lat = p.lat || -26.2 + Math.ramdom() * 0.1;
+     const lng = p.lng || -58.2 + Math.ramdom() * 0.1;
       // Agregar a la lista lateral
-      const div = document.createElement("div");
-      div.className = "item";
-      div.innerHTML = `<strong>${p.name}</strong>`;
-      listaParcelas.appendChild(div);
+    //   const div = document.createElement("div");
+    //   div.className = "item";
+    //   div.innerHTML = `<strong>${p.name}</strong>`;
+    //   listaParcelas.appendChild(div)
+    // ;
+    const marker = L.marker([lat,lng]).addTo(map);
+    marker.bindPopup(`Parcela:${p.name}`)
     });
   } catch (err) {
     console.error("Error cargando parcelas:", err);
