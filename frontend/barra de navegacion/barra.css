@@ -10,17 +10,7 @@
   --shadow: 0 10px 30px rgba(23,50,31,0.08);
   --glass: rgba(255,255,255,0.7);
 }
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:var(--crema);
-  color:var(--texto);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  line-height:1.45;
-}
+
 
 
     
