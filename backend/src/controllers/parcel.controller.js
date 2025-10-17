@@ -1,72 +1,75 @@
 import { Parcel } from "../models/parcel.models.js";
 
-export const createParcel = async (req,res) => {
-    const {name,farmer,crop,cattle} = req.body;
+export const createParcel = async (req, res) => {
+    const { name, farmer, crop, cattle } = req.body;
     try {
-        if(name === "" || name === undefined || farmer === "" || farmer === undefined || crop === "" || crop === undefined || cattle === "" || cattle === undefined){
+        if (name === "" || name === undefined || farmer === "" || farmer === undefined || crop === "" || crop === undefined || cattle === "" || cattle === undefined) {
             return res.status(400).json({
-                msg:"Todos los campos son requeridos",
+                msg: "Todos los campos son requeridos",
             })
         };
-        const parcel = await Parcel.create({farmer,crop,cattle});
+        const parcel = await Parcel.create({ farmer, crop, cattle });
         return res.status(200).json({
-            msg:"Parcela creada",
-            data:parcel,
+            msg: "Parcela creada",
+            data: parcel,
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            msg:"Error del servidor"
+            msg: "Error del servidor"
         })
     }
-    
+
 }
-export const getParcel = async (req,res) => {
-    const {id} = req.params;
-    try{
+export const getParcel = async (req, res) => {
+    const { id } = req.params;
+    try {
         const parcel = await Parcel.findById(id).populate('farmer').populate('cattle').populate('crop')
         return res.status(201).json(
             {
-                data:parcel,
+                data: parcel,
             }
         )
-    }catch (error){
+    } catch (error) {
         console.log(error)
         return res.status(500).json({
-            msg:"Error del servidor"
+            msg: "Error del servidor"
         })
     }
-    
+
 };
-export const updateParcel = async (req,res) => {
-    const {id} = req.params;
-    const {name,crop,cattle} = req.body;
+export const updateParcel = async (req, res) => {
+    const { id } = req.params;
+    const { name, crop, cattle } = req.body;
     try {
-         if(!id){
-            msg:"el id es invalido coloque un id valido"
+        if (!id) {
+            return res.status(400).json({ msg: "el id es invalido coloque un id valido" })
         }
         const parcel = await Parcel.findByIdAndUpdate(id,
-            {name,crop,cattle},
-            {new:true}
+            { name, crop, cattle },
+            { new: true }
         )
         return res.status(201).json({
-            msg:"Parcela actualizada",
-            data:parcel,
+            msg: "Parcela actualizada",
+            data: parcel,
         })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
-            msg:"Error del servidor"
+            msg: "Error del servidor"
         })
     }
-    
+
 };
 
-export const deleteParcel = async (req, res)=>{
-    const {id} = req.params;
+export const deleteParcel = async (req, res) => {
+    const { id } = req.params;
     try {
+        if (!id) {
+            return res.status(400).json({ msg: "el id es invalido coloque un id valido" })
+        }
         const parcel = await Parcel.findByIdAndDelete(id);
-        return res.status(204).json({ msg: "Parcela eliminada correctamente",data:parcel });
+        return res.status(204).json({ msg: "Parcela eliminada correctamente", data: parcel });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ msg: "Error interno del servidor" });

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asistente Veterinario PRO 6.0</title>
+
+<!-- Fuentes y estilos -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+:root {
+  --verde-1:#1b5e20;
+  --verde-2:#2e7d32;
+  --verde-3:#388e3c;
+  --verde-4:#66bb6a;
+  --crema:#f1f7f2;
+  --texto:#1b1b1b;
+}
+
+body {
+  margin:0;
+  font-family:'Poppins', sans-serif;
+  background:linear-gradient(120deg, var(--verde-1), var(--verde-3));
+  color:var(--texto);
+}
+
+/* Barra de navegación */
+nav {
+  background:var(--verde-2);
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0.8rem 1.5rem;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+nav .logo {
+  display:flex;
+  align-items:center;
+  font-weight:600;
+  font-size:1.2rem;
+}
+nav .logo img {
+  width:35px;
+  margin-right:10px;
+}
+nav ul {
+  list-style:none;
+  display:flex;
+  gap:1.5rem;
+  margin:0;
+  padding:0;
+}
+nav ul li a {
+  color:white;
+  text-decoration:none;
+  font-weight:500;
+}
+nav ul li a:hover {
+  text-decoration:underline;
+}
+
+
+/* 🌿 NAVBAR */
+.navbar{
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  background: linear-gradient(90deg,var(--verde-1),var(--verde-2));
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 40px;
+  z-index:1000;
+  box-shadow:0 4px 18px rgba(0,0,0,0.25);
+}
+.navbar-brand{
+  display:flex;
+  align-items:center;
+  color:var(--blanco);
+  font-weight:700;
+  font-size:1.25rem;
+  text-decoration:none;
+}
+.brand-icon{
+  background:rgba(255,255,255,0.08);
+  border-radius:50%;
+  padding:8px;
+  margin-right:10px;
+  color:var(--verde-4);
+}
+
+.navbar ul{
+  list-style:none;
+  display:flex;
+  gap:22px;
+}
+.navbar a{
+  color:var(--blanco);
+  text-decoration:none;
+  font-weight:500;
+  transition:color 0.3s ease;
+}
+.navbar a:hover{ color:var(--verde-4); }
+
+.btn-logout{
+  background:var(--verde-4);
+  color:var(--texto);
+  border:none;
+  border-radius:25px;
+  padding:8px 16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:background 0.3s ease, transform 0.2s;
+}
+.btn-logout:hover{
+  background:var(--verde-3);
+  transform:translateY(-3px);
+}
+
+/* Chat */
+.chat-container {
+  max-width:700px;
+  margin:2rem auto;
+  background:white;
+  border-radius:20px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.2);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.chat-box {
+  height:500px;
+  overflow-y:auto;
+  padding:1rem;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.message {
+  padding:0.7rem 1rem;
+  border-radius:15px;
+  max-width:80%;
+  line-height:1.4em;
+  opacity:0;
+  transform:translateY(10px);
+  animation:fadeIn 0.3s forwards;
+}
+.user-message {
+  align-self:flex-end;
+  background:var(--verde-3);
+  color:white;
+}
+.bot-message {
+  align-self:flex-start;
+  background:var(--crema);
+  border-left:5px solid var(--verde-2);
+}
+.bot-avatar {
+  width:30px;
+  height:30px;
+  background:url('https://cdn-icons-png.flaticon.com/512/616/616408.png') center/cover;
+  border-radius:50%;
+  display:inline-block;
+  vertical-align:middle;
+  margin-right:8px;
+}
+.input-container {
+  display:flex;
+  background:var(--verde-4);
+  padding:0.5rem;
+}
+.input-container input {
+  flex:1;
+  border:none;
+  border-radius:20px;
+  padding:0.7rem 1rem;
+  outline:none;
+  font-size:1rem;
+}
+.input-container button {
+  border:none;
+  border-radius:20px;
+  background:var(--verde-2);
+  color:white;
+  font-weight:600;
+  padding:0 1.2rem;
+  margin-left:0.5rem;
+  cursor:pointer;
+  transition:background 0.3s;
+}
+.input-container button:hover {
+  background:var(--verde-1);
+}
+
+@keyframes fadeIn {
+  to {opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+  <nav>
+   <a href="#" class="navbar-brand">
+      <i class="fas fa-leaf brand-icon"></i> AgroSmart
+    </a>
+    <ul>
+       
+      <ul>
+         <li><a href="home.html">Inicio</a></li>
+        <li><a href="establecimiento.html">Mi Parcela</a></li>
+        <li><a href="clima.html">Clima</a></li>
+        <li><a href="plagas-.html">Plagas</a></li>
+      </ul>
+    
+  </nav>
+
+  <div class="chat-container">
+    <div id="chatBox" class="chat-box">
+      <div class="message bot-message"><span class="bot-avatar"></span>🐾 ¡Hola! Soy tu asistente veterinario virtual. Cuéntame qué le pasa a tu animal y te ayudaré 🩺</div>
+    </div>
+    <div class="input-container">
+      <input type="text" id="userInput" placeholder="Describe síntomas o problemas...">
+      <button id="sendBtn">Enviar</button>
+    </div>
+  </div>
+
+  <script>
+  const chatBox = document.getElementById("chatBox");
+  const userInput = document.getElementById("userInput");
+  const sendBtn = document.getElementById("sendBtn");
+
+  // base de conocimiento
+  const base = {
+    vaca: [
+    { palabras:["moscas","plaga","picaduras"], 
+      respuesta:"Tu vaca puede estar sufriendo una infestación de moscas. Limpia el área, usa repelentes naturales (como aceite de eucalipto) y consulta un veterinario si persiste." },
+
+    { palabras:["no come","sin apetito"], 
+      respuesta:"Podría ser un problema digestivo o estrés térmico. Asegúrate de que tenga agua fresca, sombra y revisa si hay fiebre o hinchazón." },
+
+    { palabras:["fiebre","caliente","temperatura alta"], 
+      respuesta:"La fiebre puede indicar infecciones bacterianas o virales. Mide la temperatura (normal: 38–39 °C) y consulta al veterinario." },
+
+    { palabras:["diarrea","popo liquida","heces blandas"], 
+      respuesta:"Podría tener diarrea bovina por cambio de dieta o infección. Asegura agua limpia, dieta equilibrada y consulta un veterinario si persiste más de 24h." },
+
+    { palabras:["tos","moco","resfriada","tose"], 
+      respuesta:"Podría tener neumonía bovina. Mantenla abrigada, sin corrientes de aire y llama al veterinario para un posible antibiótico." },
+
+    { palabras:["ojos llorosos","lagrimea","ojos rojos"], 
+      respuesta:"Podría ser conjuntivitis infecciosa bovina. Lava los ojos con suero fisiológico y evita el polvo o el sol directo." },
+
+    { palabras:["cojea","pata hinchada","no apoya"], 
+      respuesta:"Puede tener una infección en la pezuña o lesión muscular. Limpia el casco y revisa si hay cortes. Si no mejora, requiere atención veterinaria." },
+
+    { palabras:["come tierra","chupa metal","rara alimentacion"], 
+      respuesta:"Eso puede indicar deficiencia mineral (fósforo o hierro). Ofrece suplementos minerales o bloques nutricionales." },
+
+    { palabras:["herida","lastimada","corte","sangre visible"], 
+      respuesta:"Limpia la herida con agua yodada, mantené la zona seca y protegida. Si sangra mucho o se infecta, llama al veterinario." },
+
+    { palabras:["leche","produccion","lactancia","lacta"], 
+      respuesta:"Una vaca lechera produce entre 20 y 30 litros diarios. Asegurá buena alimentación con pasto verde, forraje y agua limpia." },
+
+    { palabras:["peso","pesa","kilos","tamaño"], 
+      respuesta:"El peso de una vaca adulta varía entre 500 y 700 kg según la raza. Las de carne son más pesadas que las lecheras." },
+
+    { palabras:["piel","picazon","costras"], 
+      respuesta:"Podría tener dermatitis o sarna. Mantené limpia la piel y consultá si la inflamación aumenta." },
+
+    { palabras:["pezuñas","casco sucio","pata sucia"], 
+      respuesta:"El exceso de humedad puede causar pododermatitis. Mantené el corral seco y limpiá las pezuñas regularmente." },
+
+    { palabras:["baja leche","menos leche"], 
+      respuesta:"Puede deberse al estrés, calor o mala alimentación. Ofrece raciones balanceadas y agua fresca." },
+
+    { palabras:["preñez","embarazada","vientre grande"], 
+      respuesta:"La gestación dura unos 9 meses. Durante este tiempo necesita buena nutrición y revisiones periódicas." },
+
+    { palabras:["respira rapido","jadea","agitacion"], 
+      respuesta:"Podría ser golpe de calor o fiebre. Ofrece sombra, agua fresca y revisá signos respiratorios." },
+
+    { palabras:["leche amarilla","espesa"], 
+      respuesta:"Podría tener mastitis. Ordeñá con higiene y revisá si la ubre está caliente o dolorida." },
+
+    { palabras:["rechina dientes","babea"], 
+      respuesta:"Puede estar con dolor o intoxicación por plantas. Revisá la dieta y observá si deja de comer." },
+
+    { palabras:["mueve mucho la cola","nerviosa"], 
+      respuesta:"Si lo hace constantemente, puede estar estresada o molesta por calor o insectos." },
+
+    { palabras:["olor raro leche","sabor raro"], 
+      respuesta:"La leche con mal olor puede deberse a contaminación o infección en la ubre. Asegurá limpieza total." },
+
+    { palabras:["ruido estomago","hinchada","barriga grande"], 
+      respuesta:"Puede tener timpanismo (acumulación de gases). Masajeá el costado izquierdo y hacela caminar hasta que eructe." },
+
+    { palabras:["lengua afuera","babea mucho"], 
+      respuesta:"Esto puede indicar intoxicación o fiebre alta. Aislá al animal y observá si deja de rumiar." },
+
+    { palabras:["se lame","piel brillante"], 
+      respuesta:"Si se lame con frecuencia suele estar sana; es un comportamiento normal de limpieza." },
+
+    { palabras:["cría","ternero","recién nacido"], 
+      respuesta:"El ternero debe mamar calostro dentro de las primeras 6 horas para obtener defensas. Asegurá que la vaca lo acepte." },
+
+    { palabras:["no rumia","no mastica"], 
+      respuesta:"La falta de rumia indica problemas digestivos. Ofrecé forraje seco y revisá si hay hinchazón o fiebre." },
+
+    { palabras:["comida balanceada","alimentacion correcta","come"], 
+      respuesta:"La dieta ideal incluye pasto fresco, heno seco, agua y sales minerales. Evitá cambios bruscos." },
+
+    { palabras:["ronca","respira fuerte"], 
+      respuesta:"Podría tener fiebre de transporte o infección respiratoria. Controlá temperatura y ventilación." },
+
+    { palabras:["camina en círculo","desorientada"], 
+      respuesta:"Podría tratarse de listeriosis (enfermedad neurológica). Requiere atención veterinaria inmediata." },
+
+    { palabras:["vientre hinchado","abdomen grande"], 
+      respuesta:"Puede ser timpanismo (acumulación de gases). No debe comer leguminosas húmedas; necesita tratamiento urgente." },
+
+    { palabras:["flujo raro","sangrado vulvar"], 
+      respuesta:"Podría indicar celo o infección uterina. Controlá temperatura y comportamiento reproductivo." },
+
+    { palabras:["temperatura normal","grados"], 
+      respuesta:"La temperatura corporal normal es de 38 a 39 °C. Si supera 40 °C, hay fiebre y requiere revisión." },
+
+    { palabras:["no se levanta ","echada postparto"], 
+      respuesta:"Podría ser parálisis postparto por falta de calcio. Llamá al veterinario para aplicar calcio intravenoso." },
+
+    { palabras:["parto","dificultad parto"], 
+      respuesta:"El parto suele durar entre 2 y 6 horas. Si se prolonga más, puede haber distocia y requiere asistencia." },
+
+    { palabras:["cola levantada","mugiendo"], 
+      respuesta:"Suele ser signo de celo. Dura entre 12 y 18 horas; el mejor momento para inseminar es a las 12h de iniciado." },
+
+    { palabras:["cuernos","golpe con cuernos"], 
+      respuesta:"En sistemas intensivos se recomienda descornar a los terneros para evitar lesiones futuras." },
+
+    { palabras:["agua","cuanto bebe"], 
+      respuesta:"Una vaca lechera puede consumir entre 70 y 120 litros diarios, según temperatura y producción." },
+
+    { palabras:["dientes","dentadura"], 
+      respuesta:"Las vacas tienen 32 dientes; el desgaste permite estimar su edad." },
+
+    { palabras:["pelo erizado","piel seca"], 
+      respuesta:"Puede indicar carencia de cobre o zinc. Ofrece sales minerales balanceadas." },
+
+    { palabras:["leche poca grasa","aguada"], 
+      respuesta:"Puede ser dieta pobre en fibra o energía. Ajustar con más heno seco y concentrado." },
+
+    { palabras:["no quiere levantarse","echada sin moverse"], 
+      respuesta:"Podría tener fiebre de leche (hipocalcemia). Requiere tratamiento rápido con calcio intravenoso." },
+
+    { palabras:["leche con sangre"], 
+      respuesta:"Puede ser lesión en la ubre o inicio de mastitis. Ordeñar con cuidado y desinfectar pezones." },
+
+    { palabras:["orejas caídas","triste","desanimada"], 
+      respuesta:"Síntoma general de fiebre o deshidratación. Controlá temperatura y revisá mucosas." },
+
+    { palabras:["respiracion agitada","jadea mucho"], 
+      respuesta:"Puede ser estrés por calor. Asegura sombra, agua fresca y buena ventilación." },
+
+    { palabras:["heces duras","estreñida"], 
+      respuesta:"Puede ser falta de fibra o agua. Ofrece forraje verde y agua limpia." }
+  ],
+
+      toro: [
+    { palabras:["agresivo","embiste","nervioso"], respuesta:"El toro puede estar en celo o sentirse amenazado. Evitá acercarte sin experiencia y mantené distancia segura." },
+    { palabras:["peso","pesa","tamaño"], respuesta:"Un toro adulto puede pesar entre 800 y 1,200 kg, dependiendo de la raza. Su alimentación influye en la masa muscular." },
+    { palabras:["no come","sin apetito"], respuesta:"Podría tener problemas digestivos o parásitos. Revisa si sus heces son normales y asegura buena agua." },
+    { palabras:["camina raro","cojea"], respuesta:"Podría ser una lesión muscular o problema en las pezuñas. Revisá si hay heridas o inflamación." },
+    { palabras:["sangra nariz","moco","respira mal"], respuesta:"Podría ser una infección respiratoria o golpe de calor. Mantené sombra y consulta un veterinario." },
+    { palabras:["reproduce","monta","fertilidad"], respuesta:"Un toro sano puede servir entre 20 y 40 vacas al año. Necesita buena alimentación, minerales y revisiones reproductivas." },
+    { palabras:["herida","lastimado"], respuesta:"Limpia la herida, evitá moscas y mantené el área limpia hasta que cicatrice." },
+    { palabras:["jadea","respira rapido"], respuesta:"Podría tener fatiga o estrés térmico. Ofrecé agua fresca y sombra inmediata." },
+     { palabras:["no monta","no se aparea"], respuesta:"Podría tener baja libido por deficiencia de zinc o calor extremo. Ofrecé sombra y buena alimentación con minerales." },
+    { palabras:["herida en testículos","inflamado"], respuesta:"Puede tener orquitis o golpe. Mantenelo en lugar limpio, sin humedad y consultá a un veterinario si persiste." },
+    { palabras:["resbala","piso mojado"], respuesta:"Los toros necesitan piso seco y antideslizante. Evitá concreto liso, usá aserrín o goma para evitar lesiones." },
+    { palabras:["brama","grita mucho"], respuesta:"El toro brama más durante el celo o si percibe vacas cerca. Es un comportamiento natural." },
+    { palabras:["se separa del grupo","aislado"], respuesta:"Puede tener fiebre o estrés. Verificá temperatura y si presenta secreciones nasales o heridas." },
+    { palabras:["ojos hinchados","no ve bien"], respuesta:"Podría ser conjuntivitis o irritación por polvo. Lavá con suero y mantené el corral libre de polvo." },
+ 
+  ],
+    gallina: [
+      { palabras:["no pone huevos","dejó de poner"], respuesta:"Las gallinas pueden dejar de poner huevos por estrés, muda o mala alimentación. Dale buena luz, agua y calcio 🥚." },
+      { palabras:["alas caídas","triste","quieta"], respuesta:"Podría estar enferma de coccidiosis o tener parásitos. Limpia el gallinero y dale antiparasitarios si es necesario." },
+      { palabras:["plumas caidas","sin plumas","despeinada"], respuesta:"Probablemente está en muda o sufre estrés. Asegura buena alimentación y evita el hacinamiento." },
+      { palabras:["heces verdes","popo verde","diarrea"], respuesta:"Podría tener coccidiosis o infección intestinal. Limpia el gallinero y usa un anticoccidial recetado por un veterinario." },
+      { palabras:["pico roto","sangra pico"], respuesta:"Si el pico está dañado, mantenla separada y evita alimentos duros. Puede regenerarse con el tiempo si la base no se dañó." },
+      { palabras:["come poco","no se mueve","triste"], respuesta:"Puede tener parásitos internos o una infección. Revisa sus heces y considera aplicar un antiparasitario." },
+      { palabras:["ronca","respira raro","estornuda"], respuesta:"Es posible que tenga un resfriado aviar o bronquitis. Mantenla en un ambiente cálido, ventilado y limpio." },
+      { palabras:["huevos pequeños","pocos huevos"], respuesta:"La falta de calcio o luz puede reducir el tamaño y cantidad de huevos. Añadí cáscara molida y buena iluminación." },
+    { palabras:["plumas nuevas","muda"], respuesta:"Durante la muda, las gallinas dejan de poner huevos y pierden plumas. Es normal, dura unas 6 a 10 semanas." },
+    { palabras:["pico blanco","pálido"], respuesta:"Puede tener anemia por parásitos. Limpia el gallinero y desparasita con productos naturales." },
+    { palabras:["alas abiertas","jadea"], respuesta:"Podría tener calor o fiebre. Asegura sombra, agua limpia y buena ventilación." },
+    { palabras:["peso","pesa","liviana"], respuesta:"Una gallina adulta pesa entre 1.5 y 3 kg. Si baja de peso, revisa su dieta y evita hacinamiento." },
+    { palabras:["pollitos","incuba","cria"], respuesta:"El periodo de incubación de huevos es de 21 días. Durante ese tiempo, mantené la temperatura estable (37-38°C)." },
+    { palabras:["plumas erizadas","triste"], respuesta:"Puede tener parásitos internos. Revisá sus heces y aplicá tratamiento natural con ajo o vinagre en el agua." },
+{ palabras:["come sus huevos","rompe huevos"], respuesta:"Puede deberse a falta de calcio o aburrimiento. Colocá cáscaras molidas o piedras falsas para que deje el hábito." },
+    { palabras:["plumas levantadas","quieta"], respuesta:"Es posible que tenga frío. Mantené el gallinero cerrado por la noche y evita corrientes de aire." },
+    { palabras:["pico abierto","jadea","respira rapido"], respuesta:"Puede estar sufriendo calor excesivo. Ofrece sombra y agua con electrolitos naturales." },
+    { palabras:["pone huevos sin cáscara","blandos"], respuesta:"Falta de calcio o vitamina D. Agregá calcio en la dieta y asegurá exposición solar." },
+    { palabras:["pollitos débiles","recién nacidos"], respuesta:"Podría haber incubado en humedad o temperatura incorrecta. Mantén el calor constante y buena ventilación." },
+    { palabras:["grita mucho","nerviosa"], respuesta:"Podría ser presencia de depredadores o hacinamiento. Mantené el gallinero seguro y con espacio suficiente." },
+  
+    
+    ],
+    caballo: [
+      { palabras:["cojea","camina raro","pata"], respuesta:"Si tu caballo cojea, revisa los cascos por piedras o heridas. Podría ser laminitis o una lesión muscular." },
+      { palabras:["suda mucho","agotado","jadea"], respuesta:"Podría tener golpe de calor. Llévalo a un lugar fresco, dale agua poco a poco y no lo fuerces a moverse." },
+      { palabras:["se rasca","piel seca","picazón"], respuesta:"Puede ser dermatitis o reacción a insectos. Cepíllalo bien, usa repelentes naturales y revisa si hay heridas." },
+      { palabras:["no bebe agua","rechaza agua"], respuesta:"Eso puede indicar fiebre o problema digestivo. Controla su temperatura y revisa si come normalmente." },
+      { palabras:["herida","lastimado","raspón"], respuesta:"Limpia la herida con agua yodada y cubre si es profunda. Si sangra mucho, requiere atención veterinaria." },
+      { palabras:["respira mal","tos","moco"], respuesta:"Podría tener influenza equina. Evita el ejercicio y mantenlo aislado. Se requiere evaluación veterinaria." },
+      { palabras:["no come","triste"], respuesta:"La falta de apetito puede ser cólico o dolor dental. Observa si se acuesta mucho o patea el abdomen y consulta un veterinario." }, 
+       { palabras:["peso","pesa","kilos","tamaño"], respuesta:"Un caballo adulto pesa entre 400 y 600 kg, según la raza. Requiere alimentación rica en fibra y forraje." },
+    { palabras:["dientes","come raro"], respuesta:"Los dientes crecen constantemente y deben limarse cada año. Si come mal o pierde peso, puede tener problemas dentales." },
+    { palabras:["suda sin trabajar","agotado"], respuesta:"Puede tener fiebre o golpe de calor. Descansalo y ofrecé agua poco a poco." },
+    { palabras:["piel","pelaje opaco"], respuesta:"Una dieta pobre en vitaminas causa pelo apagado. Añadí zanahoria o suplementos naturales." },
+    { palabras:["coce","nervioso"], respuesta:"Podría estar aburrido o con exceso de energía. Necesita ejercicio diario y espacio amplio." },
+    { palabras:["come tierra","raro"], respuesta:"Puede indicar deficiencia mineral. Proporcioná bloques de sales o minerales." },
+    { palabras:["ojos","lagrimea"], respuesta:"Puede tener irritación o conjuntivitis. Limpia con suero fisiológico y mantenelo lejos del polvo." },
+ { palabras:["orejas hacia atrás","muerde","cola"], respuesta:"Son signos de enojo o incomodidad. Evitá acercarte desde atrás y revisá si algo lo molesta en la silla o el cuerpo." },
+    { palabras:["no duerme","inquieto de noche"], respuesta:"Los caballos duermen poco pero necesitan lugares tranquilos. El ruido constante puede alterar su descanso." },
+    { palabras:["suda en reposo","sin trabajar"], respuesta:"Podría ser fiebre o ansiedad. Controlá temperatura y observá otros signos clínicos." },
+    { palabras:["muerde madera","paredes"], respuesta:"Es una conducta llamada ‘aerofagia’, indica aburrimiento o falta de fibra. Dale más forraje y espacio para moverse." },
+    { palabras:["cola baja","no la mueve"], respuesta:"Puede tener dolor lumbar o cólico leve. Observá si orina y defeca normalmente." },
+    { palabras:["respira fuerte","ruido nasal"], respuesta:"Puede tener inflamación respiratoria. Evitá polvo, humedad y sobreesfuerzo físico." },
+   
+    ],
+    cabra: [
+      { palabras:["tos","moco","respira mal"], respuesta:"Tu cabra puede tener neumonía caprina. Asegura un ambiente ventilado y seco. Si empeora, se necesita antibiótico." },
+      { palabras:["ubres","hinchadas","leche rara"], respuesta:"Podría tener mastitis. Limpia las ubres y ordeña con cuidado. Si hay pus o sangre, consulta al veterinario." },
+      { palabras:["camina raro","cojea"], respuesta:"Puede tener una infección en la pezuña o falta de minerales. Limpia y desinfecta la zona y ofrece suplementos." },
+      { palabras:["no da leche","baja produccion"], respuesta:"Podría deberse a mala alimentación o estrés. Revisa su dieta y mantén un entorno tranquilo y limpio." },
+      { palabras:["come poco","triste","aislada"], respuesta:"Podría ser parasitosis o fiebre. Revisa temperatura y desparasita si es necesario." },
+      { palabras:["herida","corte","sangra"], respuesta:"Limpia la herida con agua oxigenada, aplica antiséptico y evita moscas." },
+      { palabras:["bebe mucha agua","orina mucho"], respuesta:"Puede ser señal de fiebre o problema renal. Controla su temperatura y observa otros síntomas." },
+       { palabras:["peso","pesa","flaca"], respuesta:"Una cabra adulta pesa entre 35 y 70 kg. Si pierde peso, revisá su alimentación y controlá parásitos." },
+    { palabras:["leche","produccion"], respuesta:"Una cabra lechera produce entre 2 y 4 litros diarios. Su leche es rica en calcio y proteínas." },
+    { palabras:["lactancia","cría"], respuesta:"La lactancia dura unos 150 días. Alimentá con forraje y agua abundante para mantener la producción." },
+    { palabras:["pezuñas","cojea"], respuesta:"Limpia y corta las pezuñas cada 4-6 semanas para evitar infecciones." },
+    { palabras:["respira raro","tos"], respuesta:"Podría ser bronquitis o neumonía. Evitá la humedad y el polvo en su refugio." },
+    { palabras:["bebe poco","seca"], respuesta:"La deshidratación es peligrosa. Ofrecé agua limpia y observa signos de fiebre o diarrea." },
+    { palabras:["balan mucho","gritan"], respuesta:"Podría ser por celo, hambre o falta de compañía. Las cabras son animales sociales, mantenelas en grupo." },
+    { palabras:["come plastico","raro"], respuesta:"Puede ser deficiencia mineral. Retirá objetos peligrosos y ofrece sales minerales y forraje seco." },
+    { palabras:["leche con grumos","espesa"], respuesta:"Podría tener mastitis leve. Lavá las ubres antes y después del ordeñe y usá compresas tibias." },
+    { palabras:["salta valla","escapa"], respuesta:"Las cabras son muy curiosas. Asegurá un corral de al menos 1,2 metros de altura y espacio para moverse." },
+    { palabras:["hembra no queda preñada","no cría"], respuesta:"Puede deberse a déficit nutricional o estrés. Revisá su peso y alimentación balanceada." },
+    { palabras:["orina oscura","olor fuerte"], respuesta:"Podría indicar deshidratación o infección urinaria. Asegurá agua limpia y observá si bebe normalmente." },
+ 
+  
+    ],
+    oveja: [
+      { palabras:["rasca","picazón","piel"], respuesta:"Tu oveja podría tener sarna o parásitos externos. Báñala con productos recomendados y desinfecta el corral." },
+      { palabras:["delgada","flaca"], respuesta:"Puede tener parásitos internos. Usa desparasitantes orales y controla la alimentación." },
+      { palabras:["tose","respira mal"], respuesta:"Podría tener neumonía ovina. Mantenla seca y protegida del viento, y consulta al veterinario." },
+      { palabras:["no camina","cae al suelo"], respuesta:"Podría ser falta de calcio o una infección muscular. Dale suplementos minerales y controla su alimentación." },
+      { palabras:["ojos nublados","no ve bien"], respuesta:"Podría tener queratoconjuntivitis. Lava los ojos con suero y evita el polvo o el sol directo." },
+      { palabras:["heces blandas","diarrea"], respuesta:"Revisa su alimentación, puede ser por pasto húmedo o parásitos. Ofrece agua limpia y desparasita si continúa." },
+      { palabras:["temblores","nerviosa","rara"], respuesta:"Puede ser deficiencia de minerales o intoxicación. Consulta urgente a un veterinario." },
+      { palabras:["peso","flaca"], respuesta:"Una oveja adulta pesa entre 40 y 90 kg. Si está muy delgada, revisa si hay parásitos internos." },
+    { palabras:["lana","pelaje"], respuesta:"La lana crece unos 6 cm al año. Es importante esquilarlas una vez por año para evitar calor y suciedad." },
+    { palabras:["leche","produccion"], respuesta:"Una oveja lechera produce entre 1 y 3 litros diarios. La leche es más rica en grasa que la de vaca." },
+    { palabras:["cojea","pata"], respuesta:"Puede tener pododermatitis por humedad. Mantén el corral seco y limpia sus patas regularmente." },
+    { palabras:["ojos","lagrimea"], respuesta:"Puede ser queratoconjuntivitis. Lavá los ojos con suero y evitá polvo o viento." },
+    { palabras:["triste","no come"], respuesta:"Podría ser parásitos o fiebre. Revisá temperatura y desparasitala si es necesario." },
+    { palabras:["cabecea","golpea cosas"], respuesta:"Puede ser una reacción al estrés o lucha territorial. Mantené suficiente espacio entre animales." },
+    { palabras:["no cuida su cría","rechaza cordero"], respuesta:"Podría ser primer parto o estrés. Ayudá al cordero a mamar el calostro y acercalo suavemente." },
+    { palabras:["lana mojada","olor raro"], respuesta:"Si la lana se mantiene húmeda puede causar hongos. Secá bien tras la lluvia y ventilá el corral." },
+    { palabras:["dientes gastados","come mal"], respuesta:"Las ovejas mayores pueden perder dientes, dales alimentos blandos y pasto tierno." },
+    { palabras:["temblores leves","rara"], respuesta:"Podría tener deficiencia de magnesio (tetania). Consultá un veterinario para suplementar minerales." },
+    { palabras:["no se levanta","tirada"], respuesta:"Podría ser fiebre o fatiga por parto. Dale agua y mantenela caliente mientras esperás asistencia veterinaria." },
+ 
+ 
+    ],
+
+    cerdo:[
+        { palabras:["no come","triste"], respuesta:"Podría tener fiebre o un problema digestivo. Revisa si hay tos o diarrea y controla su temperatura." },
+{ palabras:["tos","resfrio","moco"], respuesta:"Puede ser gripe porcina. Aísla al animal, mantenlo abrigado y contacta al veterinario." },
+{ palabras:["ronchas","picazon","rasca"], respuesta:"Puede tener sarna porcina. Limpia el corral y usa tratamiento antiparasitario recetado." },
+{ palabras:["vomita","babea"], respuesta:"Podría ser intoxicación alimentaria o infección viral. Retira la comida sospechosa y consulta un veterinario." },
+{ palabras:["camina raro","cojea"], respuesta:"Podría ser una lesión o deficiencia de minerales. Revisa las patas y suelos del corral." },
+{ palabras:["peso","pesa","engorde"], respuesta:"Un cerdo adulto pesa entre 150 y 300 kg. Requiere dieta rica en maíz, soja y agua limpia constante." },
+    { palabras:["piel roja","picazon"], respuesta:"Podría tener sarna. Limpia el corral y usa tratamientos naturales como aceite de neem." },
+    { palabras:["come poco","triste"], respuesta:"Podría tener fiebre o estrés térmico. Asegurá sombra y agua fresca." },
+    { palabras:["respira mal","tos"], respuesta:"Podría tener bronquitis o infección respiratoria. Mantené la zona ventilada." },
+    { palabras:["vomita","mareado"], respuesta:"Puede ser intoxicación alimentaria. Retirá la comida sospechosa y ofrecé agua limpia." },
+     { palabras:["se pelea","muerde otros"], respuesta:"Los cerdos son jerárquicos. Asegurá espacio suficiente y separá machos si hay agresión constante." },
+    { palabras:["no engorda","flaco"], respuesta:"Puede ser por parásitos internos o mala alimentación. Revisá las heces y ajustá la dieta con más proteínas." },
+    { palabras:["se rasca contra paredes","piel seca"], respuesta:"Puede ser resequedad o falta de higiene. Aplicá baños con agua y aceite vegetal." },
+    { palabras:["ruido al respirar","ronca"], respuesta:"Podría tener mucosidad por humedad o polvo. Limpia el corral y mantené buena ventilación." },
+    { palabras:["se acuesta mucho","no se levanta"], respuesta:"Podría tener fiebre o dolor articular. Verificá temperatura y si come normalmente." },
+    { palabras:["cola mordida","sangra"], respuesta:"Puede ser estrés o hacinamiento. Separá los cerdos agresivos y mejorá el espacio." },
+  
+ 
+    ], 
+    chancho: [ { palabras:["no come","triste"], respuesta:"Podría tener fiebre o un problema digestivo. Revisa si hay tos o diarrea y controla su temperatura." },
+{ palabras:["tos","resfrio","moco"], respuesta:"Puede ser gripe porcina. Aísla al animal, mantenlo abrigado y contacta al veterinario." },
+{ palabras:["ronchas","picazon","rasca"], respuesta:"Puede tener sarna porcina. Limpia el corral y usa tratamiento antiparasitario recetado." },
+{ palabras:["vomita","babea"], respuesta:"Podría ser intoxicación alimentaria o infección viral. Retira la comida sospechosa y consulta un veterinario." },
+{ palabras:["camina raro","cojea"], respuesta:"Podría ser una lesión o deficiencia de minerales. Revisa las patas y suelos del corral." },
+{ palabras:["peso","pesa","engorde"], respuesta:"Un cerdo adulto pesa entre 150 y 300 kg. Requiere dieta rica en maíz, soja y agua limpia constante." },
+    { palabras:["piel roja","picazon"], respuesta:"Podría tener sarna. Limpia el corral y usa tratamientos naturales como aceite de neem." },
+    { palabras:["come poco","triste"], respuesta:"Podría tener fiebre o estrés térmico. Asegurá sombra y agua fresca." },
+    { palabras:["respira mal","tos"], respuesta:"Podría tener bronquitis o infección respiratoria. Mantené la zona ventilada." },
+    { palabras:["vomita","mareado"], respuesta:"Puede ser intoxicación alimentaria. Retirá la comida sospechosa y ofrecé agua limpia." },
+     { palabras:["se pelea","muerde otros"], respuesta:"Los cerdos son jerárquicos. Asegurá espacio suficiente y separá machos si hay agresión constante." },
+    { palabras:["no engorda","flaco"], respuesta:"Puede ser por parásitos internos o mala alimentación. Revisá las heces y ajustá la dieta con más proteínas." },
+    { palabras:["se rasca contra paredes","piel seca"], respuesta:"Puede ser resequedad o falta de higiene. Aplicá baños con agua y aceite vegetal." },
+    { palabras:["ruido al respirar","ronca"], respuesta:"Podría tener mucosidad por humedad o polvo. Limpia el corral y mantené buena ventilación." },
+    { palabras:["se acuesta mucho","no se levanta"], respuesta:"Podría tener fiebre o dolor articular. Verificá temperatura y si come normalmente." },
+    { palabras:["cola mordida","sangra"], respuesta:"Puede ser estrés o hacinamiento. Separá los cerdos agresivos y mejorá el espacio." }, ],
+
+    lechon:[
+          { palabras:["no come","triste"], respuesta:"Podría tener fiebre o un problema digestivo. Revisa si hay tos o diarrea y controla su temperatura." },
+{ palabras:["tos","resfrio","moco"], respuesta:"Puede ser gripe porcina. Aísla al animal, mantenlo abrigado y contacta al veterinario." },
+{ palabras:["ronchas","picazon","rasca"], respuesta:"Puede tener sarna porcina. Limpia el corral y usa tratamiento antiparasitario recetado." },
+{ palabras:["vomita","babea"], respuesta:"Podría ser intoxicación alimentaria o infección viral. Retira la comida sospechosa y consulta un veterinario." },
+{ palabras:["camina raro","cojea"], respuesta:"Podría ser una lesión o deficiencia de minerales. Revisa las patas y suelos del corral." },
+{ palabras:["peso","pesa","engorde"], respuesta:"Un cerdo adulto pesa entre 150 y 300 kg. Requiere dieta rica en maíz, soja y agua limpia constante." },
+    { palabras:["piel roja","picazon"], respuesta:"Podría tener sarna. Limpia el corral y usa tratamientos naturales como aceite de neem." },
+    { palabras:["come poco","triste"], respuesta:"Podría tener fiebre o estrés térmico. Asegurá sombra y agua fresca." },
+    { palabras:["respira mal","tos"], respuesta:"Podría tener bronquitis o infección respiratoria. Mantené la zona ventilada." },
+    { palabras:["vomita","mareado"], respuesta:"Puede ser intoxicación alimentaria. Retirá la comida sospechosa y ofrecé agua limpia." },
+     { palabras:["se pelea","muerde otros"], respuesta:"Los cerdos son jerárquicos. Asegurá espacio suficiente y separá machos si hay agresión constante." },
+    { palabras:["no engorda","flaco"], respuesta:"Puede ser por parásitos internos o mala alimentación. Revisá las heces y ajustá la dieta con más proteínas." },
+    { palabras:["se rasca contra paredes","piel seca"], respuesta:"Puede ser resequedad o falta de higiene. Aplicá baños con agua y aceite vegetal." },
+    { palabras:["ruido al respirar","ronca"], respuesta:"Podría tener mucosidad por humedad o polvo. Limpia el corral y mantené buena ventilación." },
+    { palabras:["se acuesta mucho","no se levanta"], respuesta:"Podría tener fiebre o dolor articular. Verificá temperatura y si come normalmente." },
+    { palabras:["cola mordida","sangra"], respuesta:"Puede ser estrés o hacinamiento. Separá los cerdos agresivos y mejorá el espacio." },
+ ]
+
+  };
+
+  // respuestas generales si no se entiende
+  const fallback = [
+    "No estoy seguro, pero describe un poco más lo que notas 🐾.",
+    "Cuéntame qué animal es y qué síntomas tiene.",
+    "Podría ser algo leve o grave, necesito más detalles 💬."
+  ];
+
+  // función principal de respuesta
+  function generarRespuesta(texto) {
+    texto = texto.toLowerCase();
+    for (let animal in base) {
+      if (texto.includes(animal)) {
+        for (let caso of base[animal]) {
+          for (let palabra of caso.palabras) {
+            if (texto.includes(palabra)) {
+              return `🐾 ${caso.respuesta}`;
+            }
+          }
+        }
+        return `No reconozco el problema exacto con tu ${animal}, pero te recomiendo observar su comportamiento y asegurarle buena alimentación y agua 💧.`;
+      }
+    }
+
+    // respuestas genéricas
+    if (/hola|buenas|hey|ola/.test(texto)) {
+      const saludos = [
+        "¡Hola! 🐶 ¿Cómo está tu animal hoy?",
+        "¡Buenas! ¿En qué puedo ayudarte con tus animales?",
+        "¡Hola! Cuéntame qué problema notaste en tu granja 🐄"
+      ];
+      return elegir(saludos);
+    }
+
+    return elegir(fallback);
+  }
+
+  function elegir(lista){ return lista[Math.floor(Math.random()*lista.length)]; }
+
+  // funciones de chat
+  function agregarMensaje(texto, tipo){
+    const msg = document.createElement("div");
+    msg.className = "message " + tipo;
+    msg.innerHTML = tipo === "bot-message" ? `<span class="bot-avatar"></span>${texto}` : texto;
+    chatBox.appendChild(msg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function enviarMensaje(){
+    const texto = userInput.value.trim();
+    if (!texto) return;
+    agregarMensaje(texto,"user-message");
+    userInput.value = "";
+    setTimeout(() => {
+      const respuesta = generarRespuesta(texto);
+      agregarMensaje(respuesta,"bot-message");
+    }, 600);
+  }
+
+  // eventos
+  sendBtn.addEventListener("click", enviarMensaje);
+  userInput.addEventListener("keypress", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      enviarMensaje();
+    }
+  });
+  </script>
+</body>
+</html>

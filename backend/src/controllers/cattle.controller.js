@@ -40,7 +40,7 @@ export const getOneCattle = async (req,res) => {
     const {id} = req.params;
     try {
         if(!id){
-            msg:"el id es invalido coloque un id valido"
+            return res.status(400).json({msg:"el id es invalido coloque un id valido"})
         }
         const cattle = await Cattle.findById(id).populate('farmer');
         return res.status(200).json({
@@ -58,8 +58,8 @@ export const updateCattle = async (req,res) => {
     const {temperature,location,healt} = req.body;
     const {id} = req.params;
     try {
-       if(!id){
-            msg:"el id es invalido coloque un id valido"
+        if(!id){
+            return res.status(400).json({msg:"el id es invalido coloque un id valido"})
         }
         const cattle = await Cattle.findByIdAndUpdate({temperature,location,healt});
         return res.status(201).json({
@@ -79,6 +79,9 @@ export const updateCattle = async (req,res) => {
 export const deleteCattle = async (req, res)=>{
     const {id} = req.params;
     try {
+         if(!id){
+            return res.status(400).json({msg:"el id es invalido coloque un id valido"})
+        }
         const cattle = await Cattle.findByIdAndDelete(id);
         return res.status(204).json({ msg: "Ganado eliminado correctamente",data:cattle });
     } catch (error) {
