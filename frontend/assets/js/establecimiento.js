@@ -76,6 +76,32 @@ ranchos.forEach((r) => {
 });
 
 // Registrar nueva parcela (simulación)
+
 document.getElementById("btnNuevaParcela").addEventListener("click", () => {
-  alert("Funcionalidad para registrar nueva parcela próximamente.");
+  window.location.href = "registro-parcela.html";
 });
+
+async function cargarParcelas() {
+  try {
+    const res = await fetch("http://localhost:4000/api/parcels");
+    const data = await res.json();
+
+    const listaParcelas = document.getElementById("listaParcelas");
+
+    data.data.forEach(p => {
+      // Agregar marcador en mapa
+      const marker = L.marker([p.lat, p.lng]).addTo(map);
+      marker.bindPopup(`<b>${p.name}</b>`);
+
+      // Agregar a la lista lateral
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = `<strong>${p.name}</strong>`;
+      listaParcelas.appendChild(div);
+    });
+  } catch (err) {
+    console.error("Error cargando parcelas:", err);
+  }
+}
+
+cargarParcelas();
