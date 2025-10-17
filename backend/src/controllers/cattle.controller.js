@@ -75,3 +75,14 @@ export const updateCattle = async (req,res) => {
     
     
 }
+
+export const deleteCattle = async (req, res)=>{
+    const {id} = req.params;
+    try {
+        const cattle = await Cattle.findByIdAndDelete(id);
+        return res.status(204).json({ msg: "Ganado eliminado correctamente",data:cattle });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ msg: "Error interno del servidor" });
+    }
+};

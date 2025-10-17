@@ -19,7 +19,7 @@ const register = async (event) => {
 
     if(req.ok){
         alert(res.msg);
-        window.location.replace('index.html');
+        window.location.replace('home.html');
     } else{
         alert(res.msg)
     }

@@ -1,0 +1,61 @@
+/* --- Variables de Color AgroSmart --- */
+:root {
+    --color-primary: #38a169; /* Verde (Éxito, Optimización) */
+    --color-secondary: #2c5282; /* Azul Oscuro (Tecnología, Clima) */
+    --bg-dark: #2d3748; /* Fondo Oscuro general */
+    --text-dark: #1a202c;
+    --bg-light: #f7f7f7; /* Fondo Ligero para Contenido */
+    --color-warning: #f6ad55; /* Amarillo (Alerta Leve) */
+    --color-danger: #e53e3e; /* Rojo (Alerta Crítica) */
+    --color-info: #4299e1; /* Azul Claro (Datos/Información) */
+}
+
+/* --- Estilos Generales --- */
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+}
+
+/* Botón Principal (Verde) */
+.btn-agro-invert {
+    background-color: #fff;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary) !important;
+    transition: all 0.3s;
+    border-radius: 0.5rem;
+}
+.btn-agro-invert:hover {
+    background-color: var(--color-primary);
+    color: white !important;
+}
+
+/* --- Dashboard y Componentes --- */
+.main-content {
+    background-color: var(--bg-light);
+}
+
+/* Estilo para las tarjetas del pronóstico semanal */
+.forecast-card {
+    transition: transform 0.2s;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+.forecast-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: var(--color-secondary) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Footer */
+footer {
+    background-color: var(--bg-dark);
+    color: #a0aec0;
+    padding: 20px 0;
+    font-size: 0.85rem;
+    text-align: center;
+}

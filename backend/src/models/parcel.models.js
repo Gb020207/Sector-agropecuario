@@ -3,16 +3,11 @@ import { Crop } from "./crop.model.js";
 import { Cattle } from "./cattle.models.js";
 
 const Parcelschema = new Schema({
-    name:{
-        type:String,
-        unique:true,
+    establishment:{
+        type:Types.ObjectId,
+        ref:'Establishment',
         require:true,
     },
-    farmer:[{
-        type:Types.ObjectId,
-        ref:'User',
-        required:true,
-    }],
     crop:{
         type:Types.ObjectId,
         ref:'Crop',
@@ -21,7 +16,7 @@ const Parcelschema = new Schema({
     cattle:{
         type:Types.ObjectId,
         ref:'Cattle',
-        require:true,
+        require:false,
     }
 })
 Parcelschema.pre('findOneAndDelete',async function(next) {

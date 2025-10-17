@@ -1,0 +1,79 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroSmart - Mi Parcela</title>
+
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+ <link rel="stylesheet" href="assets/css/home.css">
+  
+</head>
+<body>
+
+  <!-- 🔝 NAVBAR -->
+  <header class="navbar">
+    <a href="#" class="navbar-brand">
+      <i class="fas fa-leaf brand-icon"></i> AgroSmart
+    </a>
+    <nav>
+      <ul>
+         <li><a href="home.html">Inicio</a></li>
+        <li><a href="#parcela">Mi Parcela</a></li>
+        <li><a href="#clima">Clima</a></li>
+        <li><a href="#plagas">Plagas</a></li>
+        <li><a href="#ganado">Ganado</a></li>
+        <li><a href="#cultivos">Cultivos</a></li>
+      </ul>
+    </nav>
+    <button class="btn-logout" id="logOut" onclick="logOut()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+  </header>
+
+  <!-- 🏡 HERO -->
+  <section class="hero" id="parcela">
+    <div class="hero-content">
+      <h1>Bienvenido a <span>Mi Parcela</span></h1>
+      <p>Monitorea el estado de tus cultivos, ganado y clima en tiempo real con nuestra plataforma AgroSmart.</p>
+      <a href="#info" class="btn-primary">Explorar</a>
+    </div>
+  </section>
+
+ 
+
+  <!-- 📊 INFO SECTION -->
+  <section id="info" class="info-section">
+    <h2>Gestión Integral AgroSmart</h2>
+    <p>Nuestra plataforma unifica el monitoreo de suelo, clima, cultivos, plagas y ganado, brindándote una visión completa de tu producción. 
+       Mejora la eficiencia, reduce desperdicios y toma decisiones inteligentes para un campo más sustentable.</p>
+
+    <div class="info-cards">
+      <div class="card">
+        <h3>🌱 Cultivos</h3>
+        <p>Analiza la salud de tus plantas y recibe recomendaciones basadas en datos de campo.</p>
+      </div>
+      <div class="card">
+        <h3>☁ Clima</h3>
+        <p>Consulta condiciones actuales y pronósticos precisos que impactan tu producción.</p>
+      </div>
+      <div class="card">
+        <h3>🐄 Ganado</h3>
+        <p>Controla el estado sanitario, alimentación y ubicación de tu ganado desde un solo lugar.</p>
+      </div>
+      <div class="card">
+        <h3>🐞 Plagas</h3>
+        <p>Recibe alertas tempranas y estrategias sostenibles para controlar plagas y enfermedades.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 📩 FOOTER -->
+  <footer>
+    <p>© 2025 AgroSmart | Plataforma integral para la gestión agropecuaria.</p>
+  </footer>
+
+  <!-- 🎬 Scripts -->
+ <script src="assets/js/home.js"></script>
+<script src="assets/js/logOut.js"></script>
+</body>
+</html>

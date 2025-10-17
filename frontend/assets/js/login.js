@@ -18,7 +18,7 @@ const login = async (event) =>{
  if(req.ok){
     alert(res.msg);
     localStorage.setItem("token",res.token)
-    window.location.replace('index.html')
+    window.location.replace('home.html')
  } else{
     alert(res.msg);
  }
